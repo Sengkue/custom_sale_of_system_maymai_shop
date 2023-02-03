@@ -1,0 +1,7 @@
+{
+  "name": "ecommerce_landing",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

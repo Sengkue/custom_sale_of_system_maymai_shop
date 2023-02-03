@@ -1,5 +1,5 @@
 {
-  "name": "y",
+  "name": "ecommerce_landing",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -11,10 +11,23 @@
     "lint:style": "stylelint \"**/*.{css,scss,sass,html,vue}\" --ignore-path .gitignore",
     "lint:prettier": "prettier --check .",
     "lint": "yarn lint:js && yarn lint:style && yarn lint:prettier",
-    "lintfix": "prettier --write --list-different . && yarn lint:js --fix && yarn lint:style --fix"
+    "lintfix": "prettier --write --list-different . && yarn lint:js --fix && yarn lint:style --fix",
+    "ionic:build": "npm run build",
+    "ionic:serve": "npm run start"
   },
   "dependencies": {
+    "@capacitor/android": "4.6.1",
+    "@capacitor/app": "4.1.1",
+    "@capacitor/cli": "4.6.1",
+    "@capacitor/core": "4.6.1",
+    "@capacitor/haptics": "4.1.0",
+    "@capacitor/keyboard": "4.1.0",
+    "@capacitor/status-bar": "4.1.1",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/toast": "^3.3.1",
+    "cookie-universal-nuxt": "^2.2.2",
     "core-js": "^3.25.3",
+    "currency.js": "^2.0.4",
     "nuxt": "^2.15.8",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
@@ -25,6 +38,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@nuxtjs/eslint-config": "^11.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",
+    "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/stylelint-module": "^4.1.0",
     "@nuxtjs/vuetify": "^1.12.3",
     "eslint": "^8.24.0",
