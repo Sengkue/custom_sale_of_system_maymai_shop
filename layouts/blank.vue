@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :dark="dark">
     <Nuxt/>
   </v-app>
 </template>
@@ -8,9 +8,9 @@
 export default {
   name: 'EcommerceLandingBlank',
   middleware: 'onLogin',
+  created(){
+    this.dark = this.$cookies.get('mode')
+    this.$vuetify.theme.dark = this.dark
+    },
 };
 </script>
-
-<style lang="scss" scoped>
-
-</style>

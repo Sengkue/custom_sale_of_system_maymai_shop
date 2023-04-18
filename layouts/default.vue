@@ -6,7 +6,6 @@
         <v-avatar v-ripple to="/" @click="goHome('/')">
           <v-img src="/image/icon.png" width="20" contain></v-img>
         </v-avatar>
-
         <v-spacer></v-spacer>
 
         <v-text-field
@@ -172,24 +171,10 @@ export default {
       drawer: false,
       fixed: false,
       search: '',
-      // items: [
-      //   {
-      //     icon: 'mdi-apps',
-      //     title: 'Welcome',
-      //     to: '/',
-      //   },
-      //   {
-      //     icon: 'mdi-chart-bubble',
-      //     title: 'Inspire',
-      //     to: '/inspire',
-      //   },
-      // ],
       title: 'MayMaiShop',
       dark: false,
     }
   },
-
-
 
   computed:{
     getNo(){
@@ -228,6 +213,7 @@ export default {
     goDetail(to) {
       this.$router.push(to)
     },
+
     setTheme() {
       this.sun = !this.sun
       this.dark = this.sun

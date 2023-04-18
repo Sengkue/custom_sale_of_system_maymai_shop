@@ -21,22 +21,19 @@ export default {
       change: true,
       items: [
         {
-          src: '/image/p01.png',
+          src: '/image/p01.jpg',
         },
         {
           src: '/image/p02.jpg',
         },
         {
-          src: '/image/p03.png',
+          src: '/image/p03.jpg',
         },
         {
-          src: '/image/p04.png',
+          src: '/image/p04.jpg',
         },
         {
-          src: '/image/p05.png',
-        },
-        {
-          src: '/image/p06.jpg',
+          src: '/image/p05.jpg',
         },
       ],
     }
