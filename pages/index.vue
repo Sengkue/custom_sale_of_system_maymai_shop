@@ -2,11 +2,16 @@
   <div>
     <v-container fluid>
       <!-- show slide image-------------------------------------- -->
+      <slide-img />
 
-        <slide-img/>
-
-     
-      <v-divider></v-divider>
+      <!-- category---------------------------------------- -->
+      <v-card flat >
+       <v-row>
+        <v-col cols="12">
+          catergorie
+        </v-col>
+       </v-row>
+      </v-card>
       <!-- product genderal------------------------------------- -->
       <v-card flat color="transparent">
         <Discounted />
@@ -25,7 +30,6 @@
 
 <script>
 export default {
-
   name: 'EcommerceLandingIndex',
 
   data() {

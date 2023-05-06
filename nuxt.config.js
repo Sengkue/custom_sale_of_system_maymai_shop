@@ -15,20 +15,40 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+   
   },
   publicRuntimeConfig: {
     api: 'http://127.0.0.1:8080',
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-     '@/node_modules/vuetify/dist/vuetify.min.css'
-    ],
+    '@/node_modules/vuetify/dist/vuetify.min.css',
+    '~assets/css/style.css',
+  ],
+  script: [
+    // '~assets/plugins/jquery/jquery.min.js',
+    //   '~assets/plugins/bootstrap/js/popper.min.js',
+    //   '~assets/plugins/bootstrap/js/bootstrap.bundle.min.js',
+    //   '~assets/plugins/ionicons/ionicons.js',
+    //   '~assets/plugins/moment/moment.js',
+    //   '~assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js',
+    //   '~assets/plugins/perfect-scrollbar/p-scroll.js',
+    //   '~assets/plugins/rating/jquery.rating-stars.js',
+    //   '~assets/plugins/rating/jquery.barrating.js',
+    //   '~assets/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js',
+    //   '~assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js',
+    //   '~assets/js/sticky.js',
+    //   '~assets/plugins/jquery-nice-select/js/jquery.nice-select.js',
+    //   '~assets/plugins/jquery-nice-select/js/nice-select.js',
+    //   '~assets/plugins/sidebar/sidebar.js',
+    //   '~assets/plugins/sidebar/sidebar-custom.js',
+    //   '~assets/js/custom.js',
+   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {
       src: '~/plugin/axios.js',
-
     },
     '~/plugin/global.js',
     '~/plugin/currency.js',
@@ -113,8 +133,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-
-  // server: {
-  //   host: '0.0.0.0',
-  // },
+  target: 'static',
+  server: {
+    host: '0.0.0.0',
+  },
 }
