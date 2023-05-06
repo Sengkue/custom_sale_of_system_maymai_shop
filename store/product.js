@@ -39,45 +39,45 @@ export const mutations = {
 }
 
 export const actions = {
-  // async select({ commit }, params) {
-  //   await this.$axios
-  //     .get('https://reqres.in/api/users', { params })
-  //     .then((res) => {
-  //       commit('setUser', res.data)
-  //     })
-  // },
+  async select({ commit }, params) {
+    await this.$axios
+      .get('https://reqres.in/api/users', { params })
+      .then((res) => {
+        commit('setUser', res.data)
+      })
+  },
 
-  // async selectProduct({ commit }, params) {
-  //   await this.$axios.get('/products', { params }).then((data) => {
-  //     commit('setProduct', data.data)
-  //   })
-  // },
+  async selectProduct({ commit }, params) {
+    await this.$axios.get('/products', { params }).then((data) => {
+      commit('setProduct', data.data)
+    })
+  },
 
-  // async selectProductDetail({ commit }, productId) {
-  //   await this.$axios.get(`/products/${productId}`).then((data) => {
-  //     commit('setProductDetail', data.data)
-  //     // this.$router.push('/productDetail')
-  //   })
-  // },
+  async selectProductDetail({ commit }, productId) {
+    await this.$axios.get(`/products/${productId}`).then((data) => {
+      commit('setProductDetail', data.data)
+      // this.$router.push('/productDetail')
+    })
+  },
 
-  // async search({ commit, state }, params) {
-  //   const copy = { ...params }
+  async search({ commit, state }, params) {
+    const copy = { ...params }
 
-  //   copy.search = state.search
+    copy.search = state.search
 
-  //   await this.$axios.get('/product-search', { params: copy }).then((data) => {
-  //     commit('setProduct', data.data)
-  //   })
-  // },
+    await this.$axios.get('/product-search', { params: copy }).then((data) => {
+      commit('setProduct', data.data)
+    })
+  },
 
-  // async selectHotProduct({ commit }, params) {
-  //   await this.$axios.get('/products', { params }).then((data) => {
-  //     commit('setHotProduct', data.data)
-  //   })
-  // },
-  // async selectNewProduct({ commit }, params) {
-  //   await this.$axios.get('/products', { params }).then((data) => {
-  //     commit('setNewProduct', data.data)
-  //   })
-  // },
+  async selectHotProduct({ commit }, params) {
+    await this.$axios.get('/products', { params }).then((data) => {
+      commit('setHotProduct', data.data)
+    })
+  },
+  async selectNewProduct({ commit }, params) {
+    await this.$axios.get('/products', { params }).then((data) => {
+      commit('setNewProduct', data.data)
+    })
+  },
 }
