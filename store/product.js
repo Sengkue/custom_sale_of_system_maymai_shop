@@ -8,13 +8,9 @@ export const state = () => ({
   search: null,
   hotProduct: {},
   newProduct: {},
-  number: 10,
 })
 
 export const mutations = {
-  changeNumber(state, data) {
-    state.number = data
-  },
   changeProduct(state, data) {
     state.number = data
   },

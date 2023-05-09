@@ -2,19 +2,21 @@
   <v-card elevation="0">
     <v-row>
       <v-col cols="12" class="pt-0">
-        <v-card class="d-flex align-center py-2" elevation="0">
-          <v-btn class="mx-2" fab x-small depressed color="error">
-            <v-icon>mdi-fire</v-icon>
+        <v-card class="d-flex align-center py-2 teal accent-4 white--text" elevation="0">
+          <v-btn class="mx-2" fab x-small depressed color="green">
+            <v-icon class="pa-3 white--text" style="border: 2px solid white; border-radius: 50%;">mdi-pin</v-icon>
+            <!-- <v-avatar><v-img src="/image/redBlack.gif"  max-width="30" max-height="30"></v-img></v-avatar> -->
           </v-btn>
-          <div class="red--text">HOT</div>
+          <div >ສິນຄ້າໃໝ່</div>
           <v-spacer></v-spacer>
-          <div v-ripple class="cursor d-flex justify-center align-center pa-1"  @click="goMore('/moreProducts?page=hot-details')">
-            <div class="red--text">SEE MORE</div>
-            <v-icon color="red">mdi-chevron-right</v-icon>
+          <div v-ripple class="cursor d-flex justify-center align-center pa-1"  @click="goMore('/products/moreProducts?page=new-details')">
+            <div >ເບິ່ງເພີ່ມເຕີມ</div>
+
+              <v-icon color="white">mdi-chevron-right</v-icon>
+
           </div>
         </v-card>
       </v-col>
-
       <v-col
         v-for="product in getProduct"
         :key="product.productId"
@@ -35,7 +37,7 @@
             ></v-img>
             <v-card-text class="pb-0">
               <div>{{ product.productTitle?.slice(0, 30) + '...' }}</div>
-              <div>{{currency(product.price) }}</div>
+              <div>{{ currency(product.price) }}</div>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -52,33 +54,39 @@
           </v-card>
         </v-hover>
       </v-col>
+
+      <!-- <cardProduct title="IPhone 14 Pro" image-url="/image/1.png" />
+      <cardProduct title="IPhone 14 Pro" image-url="/image/5.png" />
+      <cardProduct title="IPhone 14 Pro" image-url="/image/2.png" />
+      <cardProduct title="IPhone 14 Pro" image-url="/image/4.png" />
+      <cardProduct title="IPhone 14 Pro" image-url="/image/3.png" /> -->
+
+
     </v-row>
   </v-card>
 </template>
 
 <script>
 export default {
-  name: 'EcommerceLandingHot',
+  name: 'EcommerceLandingNewProduct',
 
   data() {
     return {}
   },
 
-  computed: {
-    getProduct() {
-      return this.$store.state.product.hotProduct
-    },
+  computed:{
+    getProduct(){
+      return this.$store.state.product.newProduct
+    }
+
   },
-  async mounted() {
-    await this.$store.dispatch('product/selectHotProduct', {
-      limit: 8,
-      newProduct: true,
-    })
-    this.loading = false
+
+  mounted() {
+    this.$store.dispatch('product/selectNewProduct', { limit:8,})
   },
 
   methods: {
-    goMore(to) {
+    goMore(to){
       this.$router.push(to)
     },
     detail(productId) {

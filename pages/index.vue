@@ -2,7 +2,7 @@
   <div>
     <v-container fluid>
       <!-- show slide image-------------------------------------- -->
-      <slide-img />
+      <HomeSlideImg />
 
       <!-- category---------------------------------------- -->
       <v-card flat >
@@ -14,15 +14,15 @@
       </v-card>
       <!-- product genderal------------------------------------- -->
       <v-card flat color="transparent">
-        <Discounted />
+        <HomeDiscounted />
       </v-card>
       <!-- hot product------------------------------------------ -->
       <v-card flat class="mt-6">
-        <hot />
+        <HomeHot />
       </v-card>
       <!-- new products tage----------------------------- -->
       <v-card flat class="mt-6">
-        <newProduct />
+        <HomeNewProduct />
       </v-card>
     </v-container>
   </div>

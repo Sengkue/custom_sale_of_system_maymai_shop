@@ -1,22 +1,30 @@
 <template>
   <v-card elevation="0">
     <v-row>
-      <v-col cols="12" class="pt-0">
-        <v-card class="d-flex align-center py-2" elevation="0">
-          <v-btn class="mx-2" fab x-small depressed color="green">
-            <v-icon>mdi-pin</v-icon>
-            <!-- <v-avatar><v-img src="/image/redBlack.gif"  max-width="30" max-height="30"></v-img></v-avatar> -->
+      <v-col cols="12" class="pt-2">
+        <v-card class="d-flex align-center py-2 teal accent-4 white--text" elevation="0">
+          <v-btn class="mx-2" fab x-small depressed color="primary">
+            <v-icon color="white" class="pa-3" style="border: 2px solid white; border-radius: 50%;">mdi-lightning-bolt</v-icon>
           </v-btn>
-          <div color="green" class="green--text">New Product</div>
+          <div >ສິນຄ້າຫຼຸດລາຄາ</div>
           <v-spacer></v-spacer>
-          <div v-ripple class="cursor d-flex justify-center align-center pa-1"  @click="goMore('/moreProducts?page=new-details')">
-            <div class="red--text">SEE MORE</div>
-
-              <v-icon color="red">mdi-chevron-right</v-icon>
-
+          <div
+            v-ripple
+            class="cursor d-flex justify-center align-center"
+            @click="goMore('/products/moreProducts?page=super-details')"
+          >
+            <div >ເບິ່ງເພີ່ມເຕີມ</div>
+            <v-icon color="white">mdi-chevron-right</v-icon>
           </div>
         </v-card>
+        <div v-if="loading" class="text-center mt-5">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
       </v-col>
+
       <v-col
         v-for="product in getProduct"
         :key="product.productId"
@@ -37,7 +45,8 @@
             ></v-img>
             <v-card-text class="pb-0">
               <div>{{ product.productTitle?.slice(0, 30) + '...' }}</div>
-              <div>{{ currency(product.price) }}</div>
+              <div class="text-decoration-line-through">{{ currency(product.rrp) }}</div>
+              <div>{{ currency(product.price)}}</div>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -54,39 +63,35 @@
           </v-card>
         </v-hover>
       </v-col>
-
-      <!-- <cardProduct title="IPhone 14 Pro" image-url="/image/1.png" />
-      <cardProduct title="IPhone 14 Pro" image-url="/image/5.png" />
-      <cardProduct title="IPhone 14 Pro" image-url="/image/2.png" />
-      <cardProduct title="IPhone 14 Pro" image-url="/image/4.png" />
-      <cardProduct title="IPhone 14 Pro" image-url="/image/3.png" /> -->
-
-
     </v-row>
   </v-card>
 </template>
 
 <script>
 export default {
-  name: 'EcommerceLandingNewProduct',
+  name: 'EcommerceLandingDiscountedProducts',
 
   data() {
-    return {}
-  },
-
-  computed:{
-    getProduct(){
-      return this.$store.state.product.newProduct
+    return {
+      loading: true,
     }
-
   },
 
-  mounted() {
-    this.$store.dispatch('product/selectNewProduct', { limit:8,})
+  computed: {
+    getProduct() {
+      return this.$store.state.product.productreal
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('product/selectProduct', {
+      limit: 4,
+      discount: true,
+    })
+    this.loading = false
   },
 
   methods: {
-    goMore(to){
+    goMore(to) {
       this.$router.push(to)
     },
     detail(productId) {
@@ -98,6 +103,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sizeText {
+  font-size: 0.8em;
+}
 .cursor {
   cursor: pointer;
 }

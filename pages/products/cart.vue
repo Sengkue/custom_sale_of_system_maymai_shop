@@ -175,6 +175,7 @@
                     >update cart</v-btn
                   >
                   <v-btn color="green white--text" class="text-capitalize elevation-0"
+                  to="/checkout"
                     >Checkout</v-btn
                   >
                 </div>

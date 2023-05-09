@@ -128,6 +128,9 @@ export default {
     getProductDetail() {
       return this.$store.state.product.productDetail
     },
+    getCartNumber() {
+      return this.$store.state.cart.number;
+    },
   },
   async mounted() {
     await this.$store.dispatch(
@@ -145,9 +148,10 @@ export default {
     },
 
     addOrder() {
-      this.No = this.No + 1
-      // await this.$store.commit('product/changeNumber', this.No)
-      this.$store.commit('product/changeNumber', this.Value)
+      if(this.Value >=0){
+        this.cartNo = this.getCartNumber + this.Value;
+      }
+      this.$store.commit('cart/changeNumber', this.cartNo)
     },
   },
 }
