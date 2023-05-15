@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-n6">
+  <div>
     <v-carousel
       height="auto"
       interval="3000"

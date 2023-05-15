@@ -2,7 +2,7 @@
   <v-card elevation="0">
     <v-row>
       <v-col cols="12" class="pt-0">
-        <v-card class="d-flex align-center py-2 teal accent-4 white--text" elevation="0">
+        <v-card class="d-flex align-center py-2 teal accent-4 white--text rounded-0" elevation="0">
           <v-btn class="mx-2" fab x-small depressed color="green">
             <v-icon class="pa-3 white--text" style="border: 2px solid white; border-radius: 50%;">mdi-pin</v-icon>
             <!-- <v-avatar><v-img src="/image/redBlack.gif"  max-width="30" max-height="30"></v-img></v-avatar> -->

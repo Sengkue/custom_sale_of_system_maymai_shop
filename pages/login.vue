@@ -1,6 +1,5 @@
 <template>
   <div>
-    <v-container>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="10">
           <v-card class="elevation-6 mt-10">
@@ -264,7 +263,6 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
   </div>
 </template>
 

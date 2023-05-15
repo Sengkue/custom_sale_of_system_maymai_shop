@@ -1,8 +1,8 @@
 <template>
-  <v-card elevation="0">
+  <v-card elevation="0" >
     <v-row>
-      <v-col cols="12" class="pt-2">
-        <v-card class="d-flex align-center py-2 teal accent-4 white--text" elevation="0">
+      <v-col cols="12" class="pt-0" >
+        <v-card class="d-flex align-center py-2 teal accent-4 white--text rounded-0" elevation="0">
           <v-btn class="mx-2" fab x-small depressed color="primary">
             <v-icon color="white" class="pa-3" style="border: 2px solid white; border-radius: 50%;">mdi-lightning-bolt</v-icon>
           </v-btn>

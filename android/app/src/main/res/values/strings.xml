@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">ecommerce_landing</string>
-    <string name="title_activity_main">ecommerce_landing</string>
-    <string name="package_name">com.ecommerce_landing</string>
-    <string name="custom_url_scheme">com.ecommerce_landing</string>
-</resources>

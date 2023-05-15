@@ -2,7 +2,7 @@
   <v-card elevation="0">
     <v-row>
       <v-col cols="12" class="pt-0">
-        <v-card class="d-flex align-center py-2 teal white--text accent-4" elevation="0">
+        <v-card class="d-flex align-center py-2 teal white--text accent-4 rounded-0" elevation="0">
           <v-btn class="mx-2" fab x-small depressed color="error">
             <v-icon class="pa-3 " style="border: 2px solid white; border-radius: 50%;">mdi-fire</v-icon>
           </v-btn>
