@@ -167,9 +167,9 @@
                 </div>
               </div>
               <div class="shopping-cart-footer">
-                <div class="column">
+                <!-- <div class="column">
                   <v-btn class="text-capitalize primary elevation-0" to="/products/detail">Back to Shopping</v-btn>
-                </div>
+                </div> -->
                 <div class="column">
                   <v-btn color="primary" class="text-capitalize elevation-0"
                     >update cart</v-btn

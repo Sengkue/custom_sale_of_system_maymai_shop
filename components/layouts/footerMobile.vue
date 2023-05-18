@@ -3,6 +3,7 @@
     v-if="$vuetify.breakpoint.xs"
     fixed
     app
+    class="teal rounded-lg rounded-b-0"
   >
     <v-container class="d-flex align-center justify-space-between ma-0 pa-2">
       <div
@@ -10,7 +11,7 @@
         class="text-center px-0 cursor-pointer"
         @click="goHome('/')"
       >
-        <div><v-icon to="/" large>mdi-home</v-icon></div>
+        <div><v-icon color="white" to="/" large>mdi-home</v-icon></div>
       </div>
       <div
         v-ripple
@@ -18,10 +19,10 @@
         @click="goCategory('/category')"
       >
         <div>
-          <v-icon to="/category" large>mdi-shape-outline</v-icon>
+          <v-icon color="white" to="/category" large>mdi-shape-outline</v-icon>
         </div>
       </div>
-      <div v-ripple class="text-center" to="/" @click="goHome('/')">
+      <!-- <div v-ripple class="text-center" to="/" @click="goHome('/')">
         <div elevation="8">
           <v-avatar class="mt-n9 cursor-pointer" elevation="8"
             ><v-img
@@ -32,14 +33,14 @@
           ></v-avatar>
         </div>
         <div class="mt-n2 cursor-pointer">{{ title }}</div>
-      </div>
+      </div> -->
 
       <div
         v-ripple
         class="text-center px-0 cursor-pointer"
         @click="goDetail('/products/cart')"
       >
-        <div><v-icon large>mdi-cart-outline</v-icon></div>
+        <div><v-icon color="white" large>mdi-cart-outline</v-icon></div>
       </div>
 
       <div
@@ -47,7 +48,7 @@
         class="text-center px-0 cursor-pointer"
         @click="goTo('/login')"
       >
-        <div><v-icon to="/login" large>mdi-account</v-icon></div>
+        <div><v-icon color="white" to="/login" large>mdi-account</v-icon></div>
       </div>
     </v-container>
   </v-footer>

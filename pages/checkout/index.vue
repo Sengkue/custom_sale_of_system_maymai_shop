@@ -4,13 +4,13 @@
       <v-row>
         <v-col cols="12">
           <v-row class="ma-0 pa-0">
-            <v-col cols="12" class="ma-0 pa-0">
+            <v-col cols="12" class="mt-0 pt-0">
               <v-card-title class="d-flex justify-space-between mt-0 pt-0">
-                <div class="d-flex ml-2 pl-2">
+                <div class="d-flex">
                   <v-icon>mdi-account-tie</v-icon>
-                  <div style="border: ">ຜູ້ຮັບ</div>
+                  <div >ຜູ້ຮັບ</div>
                 </div>
-                <div>
+                <div v-ripple @click="editUser('/checkout/editreceive')">
                   <v-icon>mdi-square-edit-outline</v-icon>
                 </div>
               </v-card-title>
@@ -33,9 +33,9 @@
               <v-card-title class="d-flex justify-space-between mt-0 pt-0">
                 <div class="d-flex">
                   <v-icon>mdi-map-marker</v-icon>
-                  <div style="border: ">ທີ່ຢູ່</div>
+                  <div >ທີ່ຢູ່</div>
                 </div>
-                <div>
+                <div v-repple @click="editLocation('/checkout/editreceive_Address')">
                   <v-icon>mdi-square-edit-outline</v-icon>
                 </div>
               </v-card-title>
@@ -210,6 +210,7 @@
 <script>
 export default {
   name: 'CustomSaleOfSystemMaymaiShopIndex',
+  layout: 'empty-layout',
 
   data() {
     return {
@@ -220,9 +221,14 @@ export default {
     }
   },
 
-  mounted() {},
 
   methods: {
+    editLocation(to){
+      this.$router.push(to)
+    },
+    editUser(to){
+        this.$router.push(to)
+    },
     onFileChange(e) {
       if (e) {
         this.url = URL.createObjectURL(e)

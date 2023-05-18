@@ -1,6 +1,6 @@
 <template>
         <div v-if="$vuetify.breakpoint.xs">
-      <v-app-bar fixed app :color="sun ? 'primary' : ''">
+      <v-app-bar fixed app :color="sun ? 'primary' : ''" class="teal">
         <v-avatar v-ripple to="/" @click="goHome('/')">
           <v-img src="/image/icon.png" width="20" contain></v-img>
         </v-avatar>
@@ -21,14 +21,14 @@
         <v-spacer />
         <div v-ripple class="text-center px-3 cursor-pointer" @click="setTheme">
           <div>
-            <v-icon large>{{
+            <v-icon color="white" large>{{
               !sun ? 'mdi-weather-night' : 'mdi-white-balance-sunny'
             }}</v-icon>
           </div>
         </div>
 
         <div v-ripple class="text-center px-3 cursor-pointer">
-          <div><v-icon large>mdi-translate</v-icon></div>
+          <div><v-icon color="white" large>mdi-translate</v-icon></div>
         </div>
       </v-app-bar>
     </div>

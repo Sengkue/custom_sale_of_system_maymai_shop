@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row row-sm">
-      <div class="col-lg-4">
+      <div class="col-lg-4 mb-n12">
         <div class="card mg-b-20">
           <div class="card-body">
             <div class="ps-0">
@@ -26,7 +26,7 @@
                 </div>
                 <hr />
                 <v-list nav dense>
-                  <v-list-item-group >
+                  <v-list-item-group>
                     <v-list-item
                       v-for="item in items"
                       :key="item.i"
@@ -279,7 +279,7 @@ export default {
 
   methods: {
     logout() {
-      this.$cookies.remove('token');
+      this.$cookies.remove('token')
       this.$router.push('login')
     },
   },
