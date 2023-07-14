@@ -2,7 +2,6 @@
   <div>
       <!-- show slide image-------------------------------------- -->
       <HomeSlideImg />
-
       <!-- category---------------------------------------- -->
       <!-- <v-card flat >
        <v-row>
@@ -12,12 +11,12 @@
        </v-row>
       </v-card> -->
       <!-- product genderal------------------------------------- -->
-      <v-card flat color="transparent">
+      <!-- <v-card flat color="transparent">
         <HomeDiscounted />
-      </v-card>
+      </v-card> -->
       <!-- hot product------------------------------------------ -->
       <v-card flat class="mt-6">
-        <HomeHot />
+        <!-- <HomeHot /> -->
       </v-card>
       <!-- new products tage----------------------------- -->
       <v-card flat class="mt-6">
@@ -34,6 +33,9 @@ export default {
   data() {
     return {}
   },
+  mounted(){
+    this.$store.dispatch('product/selectNewProduct')
+  }
 }
 </script>
 

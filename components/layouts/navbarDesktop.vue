@@ -48,9 +48,9 @@
             @click="goDetail('/products/cart')"
           >
             <v-badge
-              v-if="getCardNumber"
+              v-if="cartItems"
               color="red"
-              :content="getCardNumber"
+              :content="cartItems.length"
               overlap
             >
               <div>
@@ -87,14 +87,13 @@
         title: 'MayMaiShop',
         dark: false,
         floating:false,
+        cartItems:[]
       }
   
     },
   
     computed: {
-      getCardNumber() {
-        return this.$store.state.cart.number
-      },
+ 
     },
     watch: {},
   
@@ -105,9 +104,13 @@
     },
     mounted() {
       this.$store.dispatch('product/search')
+      this.getCartItem()
     },
   
     methods: {
+      getCartItem() {
+      this.cartItems = this.$cookies.get('listOrder') || []
+    },
       goTo(to) {
         //
         this.$router.push(to)

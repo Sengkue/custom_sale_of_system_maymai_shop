@@ -22,20 +22,17 @@
           <v-icon color="white" to="/category" large>mdi-shape-outline</v-icon>
         </div>
       </div>
-      <!-- <div v-ripple class="text-center" to="/" @click="goHome('/')">
-        <div elevation="8">
-          <v-avatar class="mt-n9 cursor-pointer" elevation="8"
-            ><v-img
-              src="/image/redBlack.gif"
-              max-width="60"
-              max-height="60"
-            ></v-img
-          ></v-avatar>
+      <v-badge v-if="cartItems" color="red" :content="cartItems.length" overlap>
+        <div
+          v-ripple
+          class="text-center px-0 cursor-pointer"
+          @click="goDetail('/products/cart')"
+        >
+          <div><v-icon color="white" large>mdi-cart-outline</v-icon></div>
         </div>
-        <div class="mt-n2 cursor-pointer">{{ title }}</div>
-      </div> -->
-
+      </v-badge>
       <div
+        v-else
         v-ripple
         class="text-center px-0 cursor-pointer"
         @click="goDetail('/products/cart')"
@@ -67,29 +64,38 @@ export default {
       search: '',
       title: 'MayMaiShop',
       dark: false,
+      cartItems: [],
     }
-
   },
-
-  computed: {
-    getCardNumber() {
-      return this.$store.state.cart.number
+  created() {
+    this.getCartItem();
+  },
+  watch: {
+    cartItems: {
+      handler: 'refreshComponent',
+      deep: true,
     },
   },
   methods: {
+    getCartItem() {
+      this.cartItems = this.$cookies.get('listOrder') || [];
+    },
+    refreshComponent() {
+      // Perform any necessary actions to refresh the component
+      // Add additional code here if needed
+    },
     goTo(to) {
-      //
-      this.$router.push(to)
+      this.$router.push(to);
     },
     goCategory(to) {
-      this.$router.push(to)
+      this.$router.push(to);
     },
     goHome(to) {
-      this.$router.push(to)
+      this.$router.push(to);
     },
     goDetail(to) {
-      this.$router.push(to)
+      this.$router.push(to);
     },
   },
-}
+};
 </script>

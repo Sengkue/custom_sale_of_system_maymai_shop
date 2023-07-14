@@ -1,3 +1,4 @@
+import jwtDecode from 'jwt-decode';
 export const state = () => ({
   profile:{},
 })
@@ -9,36 +10,34 @@ export const mutations={
 }
 
 export const actions = {
-  login({ commit }, form) {
-    this.$axios.post('https://reqres.in/api/login', form).then((data) => {
-      this.$cookies.set('token', 'QpwL5tke4Pnpja7X4')
-      this.$router.push('/')
-    })
+ login({ commit }, form) {
+    this.$axios.post('customer/login', form).then((res) => {
+      this.$cookies.set('token', res.data.token);
+      this.$cookies.set('user', res.data.c_fname);
+      
+      const decodedToken = jwtDecode(res.data.token);
+      const id = decodedToken.id;
+      const user = decodedToken.c_fname;
+      const tell = decodedToken.c_phone;
+      this.$cookies.set('user_id', id); // Update to 'user' cookie
+      this.$cookies.set('phone', tell); // Update to 'user' cookie
+      this.$cookies.set('user', user); // Update to 'user' cookie
+      
+      this.$toast.success('ເຂົ້າສູ່ລະບົບສຳເລັດ');
+      this.$router.push('/');
+    });
   },
 
-  realLogin({ commit }, form) {
-    this.$axios.post('/login', form).then((data) => {
-      this.$cookies.set('token', data.data.token)
-      this.$cookies.set('user', data.data)
-      this.$router.push('/')
-    })
-  },
   register({ commit }, form) {
-    const formData = new FormData()
-    formData.append('name', form.name)
-    formData.append('username', form.username)
-    formData.append('password', form.password)
-    formData.append('profile', form.profile)
-
-    this.$axios.post('/register', formData).then((data) => {
+    this.$axios.post('/customer', form).then((data) => {
       this.$router.push('/login')
-      this.$toast.success('Delete Success!')
+      this.$toast.success('ລົງທະບຽນສຳເລັດ')
     })
   },
 
-  selectProfile({commit}){
-    this.$axios.get('/profile').then((data)=>{
-      commit('setProfile', data.data)
+  selectProfile({commit},id){
+    this.$axios.get(`/customer/${id}`).then((data)=>{
+      commit('setProfile', data.data.result)
     })
   }
 }

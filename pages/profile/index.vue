@@ -7,15 +7,23 @@
             <div class="ps-0">
               <div class="main-profile-overview">
                 <div class="main-img-user profile-user">
-                  <img alt="" src="seng.jpg" /><a
+                  <img
+                    v-if="getProfile.c_profile"
+                    alt=""
+                    :src="getProfile.c_profile"
+                  /><a
+                    class="fas fa-camera profile-edit"
+                    href="JavaScript:void(0);"
+                  ></a>
+                  <img v-if="!getProfile.c_profile" alt="" src="seng.jpg" /><a
                     class="fas fa-camera profile-edit"
                     href="JavaScript:void(0);"
                   ></a>
                 </div>
                 <div class="d-flex justify-content-between mg-b-20">
                   <div>
-                    <h5 class="main-profile-name">Sengkuevang</h5>
-                    <p class="main-profile-name-text">vip</p>
+                    <h5 class="main-profile-name">{{ getProfile.c_fname }}</h5>
+                    <!-- <p class="main-profile-name-text">vip</p> -->
                   </div>
                 </div>
                 <h6>Address</h6>
@@ -92,7 +100,7 @@
             <div
               class="tab-content border-start border-bottom border-right border-top-0 p-4 br-dark"
             >
-              <div class="tab-pane active" id="home">
+              <div  id="home" class="tab-pane active">
                 <div class="card-body">
                   <div class="mb-4 main-content-label">
                     Personal Information
@@ -202,50 +210,50 @@
                   </button>
                 </div>
               </div>
-              <div class="tab-pane" id="settings">
+              <div  id="settings" class="tab-pane">
                 <form role="form">
                   <div class="form-group">
                     <label for="FullName">Full Name</label>
                     <input
+                    id="FullName"
                       type="text"
                       value="ເຊັງວ່າງ"
-                      id="FullName"
                       class="form-control"
                     />
                   </div>
                   <div class="form-group">
                     <label for="Email">Email</label>
                     <input
+                    id="Email"
                       type="email"
                       value="Sengkuevang@gmail.com"
-                      id="Email"
                       class="form-control"
                     />
                   </div>
                   <div class="form-group">
                     <label for="Username">Username</label>
                     <input
+                    id="Username"
                       type="text"
                       value="sengkuevang"
-                      id="Username"
                       class="form-control"
                     />
                   </div>
                   <div class="form-group">
                     <label for="Password">Password</label>
                     <input
+                    id="Password"
                       type="password"
                       placeholder="6 - 15 Characters"
-                      id="Password"
                       class="form-control"
                     />
                   </div>
                   <div class="form-group">
                     <label for="RePassword">Re-Password</label>
                     <input
+                    id="RePassword"
                       type="password"
                       placeholder="6 - 15 Characters"
-                      id="RePassword"
                       class="form-control"
                     />
                   </div>
@@ -268,14 +276,20 @@
 <script>
 export default {
   name: 'CustomSaleOfSystemMaymaiShopIndex',
-
+  middleware: 'auth',
   data() {
     return {
       items: [{ text: 'My Favourite', icon: 'mdi-cart-heart' }],
     }
   },
-
-  mounted() {},
+  computed: {
+    getProfile() {
+      return this.$store.state.user.profile
+    },
+  },
+  mounted() {
+    this.$store.dispatch('user/selectProfile', this.$cookies.get('user_id'))
+  },
 
   methods: {
     logout() {

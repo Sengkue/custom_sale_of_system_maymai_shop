@@ -14,17 +14,19 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-   
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100;200;300;400;500&display=swap',
+        rel: 'stylesheet',
+      },
+    ],
   },
   publicRuntimeConfig: {
     api: 'http://127.0.0.1:8080',
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '@/node_modules/vuetify/dist/vuetify.min.css',
-    '~assets/css/style.css',
-  ],
+  css: ['@/node_modules/vuetify/dist/vuetify.min.css', '~assets/css/style.css','./assets/global.css'],
   script: [
     // '~assets/plugins/jquery/jquery.min.js',
     //   '~assets/plugins/bootstrap/js/popper.min.js',
@@ -43,7 +45,7 @@ export default {
     //   '~assets/plugins/sidebar/sidebar.js',
     //   '~assets/plugins/sidebar/sidebar-custom.js',
     //   '~assets/js/custom.js',
-   ],
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -76,7 +78,7 @@ export default {
 
   toast: {
     position: 'top-center',
-    duration: 1000,
+    duration: 5000,
     theme: 'bubble',
     register: [
       // Register custom toasts

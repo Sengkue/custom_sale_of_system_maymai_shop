@@ -10,16 +10,18 @@ export default {
 
     data() {
         return {
-            
+            cartItems:[]
         };
     },
 
     mounted() {
-        
+        this.getCartItem()
     },
 
     methods: {
-        
+        getCartItem() {
+      this.cartItems = this.$cookies.get('listOrder') || []
+    },
     },
 };
 </script>

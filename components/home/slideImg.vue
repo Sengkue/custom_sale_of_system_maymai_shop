@@ -7,18 +7,15 @@
       hide-delimiters
       show-arrows-on-hover
     >
-      <v-carousel-item v-for="(item, index) in items" :key="index">
+      <v-carousel-item v-for="(item, index) in getBanner" :key="index">
         <img
-          :src="item.src"
+          :src="item.url"
           :alt="item.alt"
           lazy-src="/image/p01.jpg"
           style="object-fit: cover; width: 100%"
         />
       </v-carousel-item>
     </v-carousel>
-    <v-card color="teal">
-      <!-- //content -->
-    </v-card>
   </div>
 </template>
 
@@ -28,25 +25,17 @@ export default {
 
   data() {
     return {
-      items: [
-        {
-          src: '/image/p01.jpg',
-        },
-        {
-          src: '/image/p02.jpg',
-        },
-        {
-          src: '/image/p03.jpg',
-        },
-        {
-          src: '/image/p04.jpg',
-        },
-        {
-          src: '/image/p05.jpg',
-        },
-      ],
+      
     }
   },
+  computed:{
+    getBanner(){
+      return this.$store.state.shop.banner
+    }
+  },
+  mounted(){
+    this.$store.dispatch('shop/selectImageSlide')
+  }
 }
 </script>
 

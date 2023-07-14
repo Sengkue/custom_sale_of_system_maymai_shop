@@ -1,20 +1,32 @@
 export const state = () => ({
-    number: null,
-  })
+  number: null,
+  cartItems: [], // Array to store the cart items
+})
+
+export const mutations = {
+
+  updateCartItem(state, { index, item }) {
+    state.cartItems.splice(index, 1, item); // Replace the existing order item at the given index with the updated item
+  },
+  addToCart(state, item) {
+    state.cartItems.push(item); // Add a new item to the cart
+  },
+  changeNumber(state, length) {
+    state.number = length; // Update the cart number
+  },
+  UPDATE_CART_ITEM(state, item) {
+    // Find the item in the cart and update the quantity
+    const existingItem = state.cartItems.find((i) => i.id === item.id);
+    if (existingItem) {
+      existingItem.quantity = item.quantity;
+    }
+  },
   
-  export const mutations = {
-    changeNumber(state, data) {
-      state.number = data
-    },
-  }
+}
   
   export const actions = {
-    // async select({ commit }, params) {
-    //   await this.$axios
-    //     .get('https://reqres.in/api/users', { params })
-    //     .then((res) => {
-    //       commit('setUser', res.data)
-    //     })
-    // },
+    updateCartItem({ commit }, item) {
+      commit('UPDATE_CART_ITEM', item);
+    },
   }
   
