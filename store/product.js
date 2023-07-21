@@ -10,6 +10,7 @@ export const state = () => ({
   newProduct: {},
   ProductBanner: [],
   getByCategory: [],
+  hotAndpopular:[]
 })
 
 export const mutations = {
@@ -40,6 +41,9 @@ export const mutations = {
   setSelectByCategory(state, data) {
     state.getByCategory = data
   },
+  setHotAndPopular(state, data){
+    state.hotAndpopular = data
+  }
 }
 
 export const actions = {
@@ -82,9 +86,15 @@ export const actions = {
   },
   // ___________________________select by category________________________
   async selectByCategory({ commit }, id) {
-    console.log('show product', id)
     await this.$axios.get(`/product/category/${id}`).then((res) => {
       commit('setSelectByCategory', res.data.result)
     })
   },
+  // ________________________________select Hot or Popular___________________
+  async selectHotAndPopular({commit}){
+       await this.$axios.get('/saleDetail/hot/product').then((res)=>{
+        commit('setHotAndPopular', res.data.result)
+        console.log('setHotAndPopular', res.data.result)
+       })
+  }
 }

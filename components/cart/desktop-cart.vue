@@ -99,7 +99,7 @@
                 <div class="column">
                   <v-btn
                     class="text-capitalize primary elevation-0"
-                    to="/products/detail"
+                    to="/"
                   >
                     Back to Shopping
                   </v-btn>

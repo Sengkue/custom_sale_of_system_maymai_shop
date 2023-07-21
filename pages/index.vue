@@ -16,7 +16,7 @@
       </v-card> -->
       <!-- hot product------------------------------------------ -->
       <v-card flat class="mt-6">
-        <!-- <HomeHot /> -->
+        <HomeHot />
       </v-card>
       <!-- new products tage----------------------------- -->
       <v-card flat class="mt-6">
@@ -35,6 +35,8 @@ export default {
   },
   mounted(){
     this.$store.dispatch('product/selectNewProduct')
+    this.$store.dispatch('product/selectHotAndPopular')
+
   }
 }
 </script>
