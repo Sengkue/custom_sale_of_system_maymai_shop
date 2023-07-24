@@ -136,7 +136,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   target: 'static',
-  server: {
-    host: '0.0.0.0',
-  },
+  // server: {
+  //   host: '0.0.0.0',
+  // },
 }

@@ -21,7 +21,7 @@
                             label="ເບີ"
                             outlined
                             dense
-                            color="blue"
+                            color="teal"
                             autocomplete="false"
                             class="mt-16"
                             :rules="[
@@ -37,7 +37,7 @@
                             label="ລະຫັດ"
                             outlined
                             dense
-                            color="blue"
+                            color="teal"
                             autocomplete="false"
                             type="password"
                             :rules="[
@@ -50,39 +50,42 @@
                           </v-text-field>
 
                           <v-btn
-                            color="blue"
+                            color="teal"
                             dark
                             block
                             :loading="loading"
                             @click="logintosystem"
                             >Login</v-btn
                           >
-                          <h5 class="text-center grey--text mt-4 mb-3">
-                            Or Log in using
-                          </h5>
-                          <div
-                            class="d-flex justify-space-between align-center mx-10 mb-16"
-                          >
-                            <v-btn
-                              depressed
-                              outlined
-                              color="grey"
-                              @click="addLog"
-                            >
-                              <v-icon color="red">mdi-google</v-icon>
-                            </v-btn>
-                            <v-btn depressed outlined color="grey">
-                              <v-icon color="blue">mdi-facebook</v-icon>
-                            </v-btn>
-                            <v-btn depressed outlined color="grey">
-                              <v-icon color="ligt-blue">mdi-twitter</v-icon>
-                            </v-btn>
-                          </div>
+                          <v-row class="mt-2">
+                            <v-col cols="6"> ລືມລະຫັດຜ່ານບໍ? </v-col>
+                            <v-col cols="6" class="d-flex justify-end">
+                                <a
+                                  :class="custom - link"
+                                  style="text-decoration: none;"
+                                  :href="
+                                    'https://wa.me/' +
+                                    '+8562078781525' +
+                                    '?text=ສະບາຍດີແອັດ ລູກຄ້າລືມລະຫັດຜ່ານ '
+                                  "
+                                  target="_blank"
+                                  v-on="on"
+                                >
+                                  ຕິດຕໍ່ຫາ Admin
+                                  <v-icon
+                                    class="my-icon"
+                                    size="25"
+                                     color="success"
+                                    >mdi-whatsapp</v-icon
+                                  >
+                                </a>
+                            </v-col>
+                          </v-row>
                         </v-col>
                       </v-row>
                     </v-card-text>
                   </v-col>
-                  <v-col cols="12" md="6" class="blue rounded-bl-xl">
+                  <v-col cols="12" md="6" class="teal rounded-bl-xl">
                     <div style="text-align: center; padding: 180px 0">
                       <v-card-text class="white--text">
                         <h3 class="text-center">ຍັງບໍ່ມີບັນຊີບໍ?</h3>
@@ -102,7 +105,7 @@
               </v-window-item>
               <v-window-item :value="2">
                 <v-row>
-                  <v-col cols="12" md="6" class="blue rounded-br-xl">
+                  <v-col cols="12" md="6" class="teal rounded-br-xl">
                     <div style="text-align: center; padding: 180px 0">
                       <v-card-text class="white--text">
                         <h3 class="text-center">ລົງທະບຽນແລ້ວ?</h3>
@@ -127,7 +130,7 @@
                         ໃຫ້ທ່ານຕັ້ງຄ່າທັງໝົດເພື່ອໃຫ້ທ່ານສາມາດເລີ່ມສ້າງຕົວຂອງທ່ານເອງໄດ້
                       </h5>
                       <v-row align="center" justify="center">
-                        <v-col cols="12" sm="8">
+                        <v-col cols="12" sm="8" class="mb-5">
                           <!---------------------------------- profile image user -->
                           <div class="justify-center text-center mt-5">
                             <div>
@@ -148,12 +151,11 @@
                             ></v-file-input>
                             <!--------------------------- buttom profile -->
                             <v-btn
-                              class="mt-2"
-                              color="primary"
+                              class="mt-2 teal white--text"
                               small
                               @click="upload"
                             >
-                              <v-icon>mdi-tray-arrow-up</v-icon>
+                              <v-icon color="white">mdi-tray-arrow-up</v-icon>
                               Profile
                             </v-btn>
                           </div>
@@ -163,7 +165,7 @@
                             label="ຊື່"
                             outlined
                             dense
-                            color="blue"
+                            color="teal"
                             autocomplete="false"
                             class="mt-4"
                             :rules="[
@@ -178,7 +180,7 @@
                             label="ນາມສະກຸນ"
                             outlined
                             dense
-                            color="blue"
+                            color="teal"
                             autocomplete="false"
                             :rules="[
                               (v) => !!v || 'ປ້ອມນາມກະກຸນ',
@@ -193,7 +195,7 @@
                             label="ເພດ"
                             outlined
                             dense
-                            color="blue"
+                            color="teal"
                             autocomplete="off"
                             :items="['ຊາຍ', 'ຍິງ']"
                             :rules="[(v) => !!v || 'ກະລຸນາເລືອກເພດກ່ອນ']"
@@ -204,7 +206,7 @@
                             label="ເບີ"
                             outlined
                             dense
-                            color="blue"
+                            color="teal"
                             autocomplete="off"
                             :rules="[
                               (v) => !!v || 'ກະລຸນາປ້ອມເບີ',
@@ -217,7 +219,7 @@
                             label="ລະຫັດ"
                             outlined
                             dense
-                            color="blue"
+                            color="teal"
                             autocomplete="off"
                             :append-icon="
                               showPassword ? 'mdi-eye' : 'mdi-eye-off'
@@ -239,32 +241,13 @@
 
                           <v-btn
                             :loading="loading"
-                            color="blue"
+                            color="teal"
                             dark
                             block
                             tile
                             @click="signup"
                             >Sign up</v-btn
                           >
-
-                          <h5 class="text-center grey--text mt-4 mb-3">
-                            Or Sign up using
-                          </h5>
-                          <div
-                            class="d-flex justify-space-between align-center mx-10 mb-11"
-                          >
-                            <v-btn depressed outlined color="grey">
-                              <v-icon color="red">mdi-google</v-icon>
-                            </v-btn>
-                            <v-btn depressed outlined color="grey">
-                              <v-icon color="blue">mdi-facebook</v-icon>
-                            </v-btn>
-                            <v-btn depressed outlined color="grey">
-                              <v-icon color="light-blue lighten-3"
-                                >mdi-twitter</v-icon
-                              >
-                            </v-btn>
-                          </div>
                         </v-col>
                       </v-row>
                     </v-card-text>

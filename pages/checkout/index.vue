@@ -407,13 +407,14 @@ export default {
         this.sale_detail.quantity = parseInt(item.quantity)
         this.sale_detail.sale_price = parseInt(item.price)
         return this.$axios.post('/saleDetail', this.sale_detail).then((res) => {
+
         })
       })
-
+      this.$toast.success('ສຳຊື້ສຳເລັດ ຂອບໃຈທີ່ໄວ້ວາງໃຈພວກເຮົາ')
       this.showConfirmationDialog = false
       this.loading = false
       this.$cookies.remove('listOrder')
-      this.$router.push('/')
+      this.$router.push('/profile')
     },
   },
 }

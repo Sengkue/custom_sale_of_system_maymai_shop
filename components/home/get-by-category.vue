@@ -1,94 +1,148 @@
-<!-- <template>
-    <v-card elevation="0">
-      <v-row>
-        <v-col cols="12" class="pt-0">
-          <v-card class="d-flex align-center py-2 teal white--text accent-4 rounded-0" elevation="0">
-            <v-btn class="mx-2" fab x-small depressed color="error">
-              <v-icon class="pa-3 " style="border: 2px solid white; border-radius: 50%;">mdi-fire</v-icon>
-            </v-btn>
-            <div >ສີນຄ້າຍອດນິຍົມ</div>
-            <v-spacer></v-spacer>
-            <div v-ripple class="cursor d-flex justify-center align-center pa-1"  @click="goMore('/products/moreProducts?page=hot-details')">
-              <div >ເບິ່ງເພີ່ມເຕີມ</div>
-              <v-icon color="white"  >mdi-chevron-right</v-icon>
-            </div>
+<template>
+  <v-card class="mt-0 rounded-0" elevation="0">
+    <v-tabs v-model="tab" background-color="error" dark :class="getByCategory.length<0? '':mb-n2">
+      <v-tab v-for="(item, index) in items" :key="index">
+        {{ item.tab }}
+      </v-tab>
+    </v-tabs>
+
+    <v-tabs-items v-model="tab" class="mt-2">
+      <v-tab-item v-for="(item, index) in items" :key="index">
+        <v-card flat>
+          <v-card elevation="0">
+            <v-row>
+              <v-col
+                v-for="(product, index) in getByCategory"
+                :key="index"
+                cols="6"
+                lg="3"
+                sm="6"
+                md="4"
+                class="py-2"
+              >
+                <v-hover v-slot="{ hover }" close-delay="200">
+                  <v-card
+                    :elevation="hover ? 5 : 0.01"
+                    @click="detail(product.id)"
+                  >
+                    <v-img
+                      class="justify-center"
+                      :src="product.profile"
+                      height="300"
+                      width="auto"
+                      contain
+                    ></v-img>
+                    <v-card-text class="pb-0">
+                      <div>{{ product.name?.slice(0, 30) + '...' }}</div>
+                      <div>{{ currency(product.sale_price) }}</div>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn
+                        v-if="!$vuetify.breakpoint.xs"
+                        color="red"
+                        text
+                        small
+                        @click="detail(product.id)"
+                        >ລາຍລະອຽດ</v-btn
+                      >
+                      <v-spacer></v-spacer>
+                      <div v-if="product.quantity > 0">
+                        <v-btn color="red" x-small text>ພ້ອມສົ່ງ</v-btn>
+                      </div>
+                      <div v-else class="green accent-2">
+                        <v-btn color="red" x-small text>ສິນຄ້າໝົດສະຕ໊ອກ</v-btn>
+                      </div>
+                    </v-card-actions>
+                  </v-card>
+                </v-hover>
+              </v-col>
+            </v-row>
           </v-card>
-        </v-col>
-  
-        <v-col
-          v-for="product in getProduct"
-          :key="product.productId"
-          cols="6"
-          lg="3"
-          sm="6"
-          md="4"
-          class="py-2"
-        >
-          <v-hover v-slot="{ hover }" close-delay="200">
-            <v-card :elevation="hover ? 5 : 0" @click="detail(product.productId)">
-              <v-img
-                class="justify-center"
-                :src="'https://api.olaa.la/Files/' + product.productImageUrl"
-                height="300"
-                width="auto"
-                contain
-              ></v-img>
-              <v-card-text class="pb-0">
-                <div>{{ product.productTitle?.slice(0, 30) + '...' }}</div>
-                <div>{{currency(product.price) }}</div>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn
-                  v-if="!$vuetify.breakpoint.xs"
-                  color="red"
-                  text
-                  small
-                  @click="detail(product.productId)"
-                  >Super Deals</v-btn
-                >
-                <v-spacer></v-spacer>
-                <v-btn color="red" x-small text>IN STOCK</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-hover>
-        </v-col>
-      </v-row>
-    </v-card>
-  </template>
-  
-  <script>
-  export default {
-    name: 'EcommerceLandingHot',
-    data() {
-      return {}
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+  </v-card>
+</template>
+
+<script>
+export default {
+  name: 'CustomSaleOfSystemMaymaiShopGetByCategory',
+
+  data() {
+    return {
+      tab: null, // Set the default category ID to null
+      items: [],
+    }
+  },
+
+  computed: {
+    getProduct() {
+      return this.$store.state.product.hotAndpopular
     },
-  
-    computed: {
-      getProduct() {
-        return this.$store.state.product.getByCategory
-      },
+    getByCategory() {
+      return this.$store.state.product.getByCategory
     },
-    async mounted() {
-        const id = "5d0a3a76-ab4a-461b-9bc3-186b143cc393"
-      await this.$store.dispatch('product/selectByCategory',id)
-      this.loading = false
+  },
+
+  watch: {
+    // Watch for changes in the selected category tab and fetch products accordingly
+    tab(newTab, oldTab) {
+      if (newTab !== oldTab) {
+        this.fetchProductsByCategory(this.items[newTab].id)
+      }
     },
-  
-    methods: {
-      goMore(to) {
-        this.$router.push(to)
-      },
-      detail(productId) {
-        this.$router.push('/products/' + productId)
-        // this.$store.dispatch('/product/productDetail', productId)
-      },
+  },
+
+  async mounted() {
+    // Fetch hot and popular products
+    this.$store.dispatch('product/selectHotAndPopular')
+
+    // Fetch categories and update the items array
+    await this.fetchCategories()
+
+    // Fetch products based on the initial selected category (which is null at this point)
+    this.fetchProductsByCategory(this.tab)
+  },
+
+  methods: {
+    async fetchCategories() {
+      try {
+        // Fetch data from the API
+        const response = await this.$axios.get('/category')
+        const data = response.data
+
+        // Process the API response and format it as per the items array structure
+        const formattedData = data.result.rows.map((category) => ({
+          tab: category.category,
+          id: category.id,
+          content: category.category + ' Content',
+        }))
+
+        // Update the items array with the fetched data
+        this.items = formattedData
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
     },
-  }
-  </script>
-  
-  <style lang="scss" scoped>
-  .cursor {
-    cursor: pointer;
-  }
-  </style>
-   -->
+
+    async fetchProductsByCategory(categoryId) {
+      try {
+        // Fetch products based on the selected category ID
+        const response = await this.$store.dispatch('product/selectByCategory', categoryId)
+        const data = response.data
+
+        // Update the products in the store (assuming your store handles product state)
+        this.$store.commit('product/setByCategory', data.result.rows)
+      } catch (error) {
+        console.error('Error fetching products by category:', error)
+      }
+    },
+
+    detail(productId) {
+      this.$router.push('/products/' + productId)
+    },
+  },
+}
+</script>
+
+<style lang="scss" scoped></style>

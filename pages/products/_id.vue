@@ -1,4 +1,3 @@
-v
 <template>
   <div>
     <v-card class="mx-auto ma-5" max-width="1000">

@@ -86,9 +86,13 @@ export const actions = {
   },
   // ___________________________select by category________________________
   async selectByCategory({ commit }, id) {
-    await this.$axios.get(`/product/category/${id}`).then((res) => {
-      commit('setSelectByCategory', res.data.result)
-    })
+    try {
+      const response = await this.$axios.get(`/product/category/${id}`);
+      commit('setSelectByCategory', response.data.result);
+    } catch (error) {
+      console.error('Error fetching products by category:', error);
+      commit('setSelectByCategory', []);
+    }
   },
   // ________________________________select Hot or Popular___________________
   async selectHotAndPopular({commit}){

@@ -3,17 +3,7 @@
       <!-- show slide image-------------------------------------- -->
       <HomeSlideImg />
       <!-- category---------------------------------------- -->
-      <!-- <v-card flat >
-       <v-row>
-        <v-col cols="12">
-          catergorie
-        </v-col>
-       </v-row>
-      </v-card> -->
-      <!-- product genderal------------------------------------- -->
-      <!-- <v-card flat color="transparent">
-        <HomeDiscounted />
-      </v-card> -->
+      <home-get-by-category v-if="!$vuetify.breakpoint.xs"/>
       <!-- hot product------------------------------------------ -->
       <v-card flat class="mt-6">
         <HomeHot />
