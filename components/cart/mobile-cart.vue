@@ -22,9 +22,9 @@
             </v-col>
             <v-col cols="8">
               <h2>{{ item.name }}</h2>
-              <p>Price: ₭{{ item.price }}</p>
+              <p>ລາຄາ: {{ formatPrice(item.price) }} ກີບ</p>
               <div class="d-flex align-center">
-                <label>Quantity:</label>
+                <label>ຈຳນວນ:</label>
                 <v-text-field
                 v-model="item.quantity"
                   dense
@@ -35,8 +35,8 @@
                   @change="updateQuantity(item)"
                 />
               </div>
-              <p>Subtotal: ₭{{ calculateSubtotal(item) }}</p>
-              <v-btn small color="error" @click="removeItem(item.id)">Remove</v-btn>
+              <p>ລວມເິງນ: {{ formatPrice(calculateSubtotal(item)) }} ກີບ</p>
+              <v-btn small color="error" @click="removeItem(item.id)">ລົບອອກ</v-btn>
             </v-col>
             <v-col cols="12" class="ma-0 pa-0"> <v-divider/> </v-col>
           
@@ -46,7 +46,7 @@
       </div>
 
       <div class="d-flex justify-space-between align-center mb-10 mr-2">
-        <h3>Total: ₭{{ calculateTotal() }}</h3>
+        <h4>ລວມເງິນທັງໝົດ: {{ formatPrice(calculateTotal()) }} ກີບ</h4>
         <v-btn color="primary" @click="checkout">Checkout</v-btn>
       </div>
     </div>
@@ -75,10 +75,16 @@ export default {
     updateQuantity(item) {
       // Implement logic to update the quantity in the cart
       // Update the quantity in the cartItems array
-      const cartItem = this.cartItems.find((i) => i.id === item.id)
+      const cartItem = this.cartItems.find((i) => i.id === item.id);
+      
       if (cartItem) {
-        cartItem.quantity = item.quantity
-        this.saveCartItemsToCookies() // Save the updated cart items to cookies
+        if( item.quantity < cartItem.check_quantity){
+          cartItem.quantity = item.quantity;
+          this.saveCartItemsToCookies(); // Save the updated cart items to cookies
+        }else{
+          alert(`ສິນຄ້າສາມາດປ້ອມໄດ້ໃນຈຳນວນ ( ${cartItem.check_quantity} )`)
+          item.quantity = cartItem.check_quantity
+        }
       }
     },
     removeItem(itemId) {

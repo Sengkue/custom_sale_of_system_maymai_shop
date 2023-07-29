@@ -151,9 +151,15 @@ export default {
       // Implement logic to update the quantity in the cart
       // Update the quantity in the cartItems array
       const cartItem = this.cartItems.find((i) => i.id === item.id);
+      
       if (cartItem) {
-        cartItem.quantity = item.quantity;
-        this.saveCartItemsToCookies(); // Save the updated cart items to cookies
+        if( item.quantity < cartItem.check_quantity){
+          cartItem.quantity = item.quantity;
+          this.saveCartItemsToCookies(); // Save the updated cart items to cookies
+        }else{
+          alert(`ສິນຄ້າສາມາດປ້ອມໄດ້ໃນຈຳນວນ ( ${cartItem.check_quantity} )`)
+          item.quantity = cartItem.check_quantity
+        }
       }
     },
     removeItem(itemId) {

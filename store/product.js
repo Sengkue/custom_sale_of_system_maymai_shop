@@ -60,12 +60,20 @@ export const actions = {
     })
   },
 
-  async search({ commit, state }, params) {
-    const copy = { ...params }
-    copy.search = state.search
-    await this.$axios.get('/product-search', { params: copy }).then((data) => {
-      commit('setProduct', data.data)
-    })
+  async search({ commit }, keyword) {
+    try {
+      const response = await this.$axios.get('/product/search', {
+        params: {
+          keyword,
+          limit: 8,
+        },
+      });
+
+      commit('setProduct', response.data.result);
+    } catch (error) {
+      // You can commit an empty array or handle the error state differently based on your requirements.
+      commit('setProduct', []);
+    }
   },
 
   async selectHotProduct({ commit }, params) {
@@ -90,7 +98,6 @@ export const actions = {
       const response = await this.$axios.get(`/product/category/${id}`);
       commit('setSelectByCategory', response.data.result);
     } catch (error) {
-      console.error('Error fetching products by category:', error);
       commit('setSelectByCategory', []);
     }
   },
@@ -98,7 +105,6 @@ export const actions = {
   async selectHotAndPopular({commit}){
        await this.$axios.get('/saleDetail/hot/product').then((res)=>{
         commit('setHotAndPopular', res.data.result)
-        console.log('setHotAndPopular', res.data.result)
        })
   }
 }

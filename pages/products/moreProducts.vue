@@ -3,10 +3,10 @@
     <v-row>
       <v-col cols="12" class="pt-5">
         <v-card class="d-flex align-center py-2">
-          <v-btn class="mx-2" fab x-small depressed color="error">
+          <v-btn class="mx-2 white--text" fab x-small depressed color="teal">
             <v-icon small>mdi-lightning-bolt</v-icon>
           </v-btn>
-          <div class=" sizeText">{{message}}</div>
+          <div class="sizeText">{{ message }}</div>
         </v-card>
         <div v-if="loading" class="text-center mt-5">
           <v-progress-circular
@@ -15,7 +15,6 @@
           ></v-progress-circular>
         </div>
       </v-col>
-
       <v-col
         v-for="product in getProduct"
         :key="product.productId"
@@ -26,17 +25,17 @@
         class="py-2"
       >
         <v-hover v-slot="{ hover }" close-delay="200">
-          <v-card :elevation="hover ? 5 : 0">
+          <v-card :elevation="hover ? 5 : 0.01" @click="detail(product.id)">
             <v-img
               class="justify-center"
-              :src="'https://api.olaa.la/Files/' + product.productImageUrl"
+              :src="product.profile"
               height="300"
               width="auto"
               contain
             ></v-img>
             <v-card-text class="pb-0">
-              <div>{{ product.productTitle }}</div>
-              <div>${{ product.price }}</div>
+              <div>{{ product.name?.slice(0, 30) + '...' }}</div>
+              <div>{{ currency(product.sale_price) }}</div>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -44,11 +43,16 @@
                 color="red"
                 text
                 small
-                @click="detail(product.productId)"
-                >Super Deals</v-btn
+                @click="detail(product.id)"
+                >ລາຍລະອຽດ</v-btn
               >
               <v-spacer></v-spacer>
-              <v-btn color="red" x-small text>IN STOCK</v-btn>
+              <div v-if="product.quantity > 0">
+                <v-btn color="red" x-small text>ພ້ອມສົ່ງ</v-btn>
+              </div>
+              <div v-else class="green accent-2">
+                <v-btn color="red" x-small text>ສິນຄ້າໝົດສະຕ໊ອກ</v-btn>
+              </div>
             </v-card-actions>
           </v-card>
         </v-hover>
@@ -76,7 +80,7 @@ export default {
     return {
       loading: true,
       plus: 20,
-      message:'',
+      message: '',
     }
   },
 
@@ -86,7 +90,7 @@ export default {
         return this.$store.state.product.productreal
       }
       if (this.$route.query.page === 'hot-details') {
-        return this.$store.state.product.hotProduct
+        return this.$store.state.product.hotAndpopular
       }
       if (this.$route.query.page === 'new-details') {
         return this.$store.state.product.newProduct
@@ -99,7 +103,7 @@ export default {
   },
   async mounted() {
     if (this.$route.query.page === 'super-details') {
-      this.message = "Super Deals"
+      this.message = 'Super Deals'
       await this.$store.dispatch('product/selectProduct', {
         limit: 12,
         discount: true,
@@ -107,20 +111,15 @@ export default {
       this.loading = false
     }
     if (this.$route.query.page === 'hot-details') {
-      this.message = "Hot"
-      await this.$store.dispatch('product/selectHotProduct', {
-      limit: 12,
-      newProduct: true,
-    })
-    this.loading = false
-    }
-    if (this.$route.query.page === 'new-details') {
-      this.message = "New Product"
-     await this.$store.dispatch('product/selectNewProduct', { limit:12,})
+      this.message = 'ສິນຄ້າຍອດນິຍົມ'
+      await this.$store.dispatch('product/selectHotAndPopular')
       this.loading = false
     }
-
-
+    if (this.$route.query.page === 'new-details') {
+      this.message = 'ສິນຄ້າຍອດນີຍົມ'
+      await this.$store.dispatch('product/selectNewProduct', { limit: 12 })
+      this.loading = false
+    }
   },
 
   methods: {

@@ -11,7 +11,6 @@
       </v-main>
       <!-------------- chats whatsapp andd massenger -->
       <Chats/>
-
       <!---------------desktop footer screen-------------- -->
       <v-footer v-if="!$vuetify.breakpoint.xs"> </v-footer>
     </v-app>
@@ -19,7 +18,7 @@
   
   <script>
   export default {
-    name: 'empty-layout',
+    name: 'Empty-Layouts',
     data() {
       return {
         num: 0,
@@ -32,10 +31,7 @@
         dark: false,
         floating:false,
       }
-  
     },
-
-  
     computed: {
       getCardNumber() {
         return this.$store.state.cart.number

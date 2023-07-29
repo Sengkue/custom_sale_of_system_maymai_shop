@@ -18,7 +18,7 @@
     <!----------------mobile footer------------------------------------------- foooter for mobile screen -->
        <layoutsFooterMobile/>
     <!--------------------------desktop footer screen---------------------------------------- desktop screen -->
-    <v-footer v-if="!$vuetify.breakpoint.xs"> </v-footer>
+    <LayoutsFooterDesktop/>
   </v-app>
 </template>
 

@@ -67,14 +67,14 @@ export default {
       cartItems: [],
     }
   },
-  created() {
-    this.getCartItem();
-  },
   watch: {
     cartItems: {
       handler: 'refreshComponent',
       deep: true,
     },
+  },
+  created() {
+    this.getCartItem();
   },
   methods: {
     getCartItem() {

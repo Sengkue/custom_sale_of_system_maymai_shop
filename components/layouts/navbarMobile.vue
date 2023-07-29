@@ -1,44 +1,49 @@
 <template>
-        <div v-if="$vuetify.breakpoint.xs">
-      <v-app-bar fixed app :color="sun ? 'primary' : ''" class="teal">
-        <v-avatar v-ripple to="/" @click="goHome('/')">
-          <v-img src="/image/icon.png" width="20" contain></v-img>
-        </v-avatar>
-        <v-spacer></v-spacer>
+  <div v-if="$vuetify.breakpoint.xs">
+    <v-app-bar fixed app :color="sun ? 'black' : ''" class="teal">
+      <v-avatar v-ripple to="/" @click="goHome('/')">
+        <v-img src="/image/icon.png" width="20" contain></v-img>
+      </v-avatar>
+      <v-spacer></v-spacer>
 
-        <v-text-field
-          v-model="search"
-          class="ml-1"
-          placeholder="search"
-          :background-color="sun ? '' : 'white'"
-          outlined
-          dense
-          hide-details="auto"
-          append-icon="mdi-magnify"
-        >
-        </v-text-field>
+      <v-text-field
+        v-model="search"
+        class="ml-1"
+        placeholder="search"
+        :background-color="sun ? '' : 'white'"
+        outlined
+        dense
+        hide-details="auto"
+        @keyup.enter="onSearch"
+      >
+        <template #append>
+          <v-btn text small @click="onSearch" style="background-color: transparent;">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </template>
+      </v-text-field>
 
-        <v-spacer />
-        <div v-ripple class="text-center px-3 cursor-pointer" @click="setTheme">
-          <div>
-            <v-icon color="white" large>{{
-              !sun ? 'mdi-weather-night' : 'mdi-white-balance-sunny'
-            }}</v-icon>
-          </div>
+      <v-spacer />
+      <div v-ripple class="text-center px-3 cursor-pointer" @click="setTheme">
+        <div>
+          <v-icon color="white" large>{{
+            !sun ? 'mdi-weather-night' : 'mdi-white-balance-sunny'
+          }}</v-icon>
         </div>
+      </div>
 
-        <div v-ripple class="text-center px-3 cursor-pointer">
-          <div><v-icon color="white" large>mdi-translate</v-icon></div>
-        </div>
-      </v-app-bar>
-    </div>
+      <!-- <div v-ripple class="text-center px-3 cursor-pointer">
+        <div><v-icon color="white" large>mdi-translate</v-icon></div>
+      </div> -->
+    </v-app-bar>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'CustomSaleOfSystemMaymaiShopNavbarMobile',
+  name: 'CustomSaleOfSystemMaymaiShopNavbarMobile',
 
-    data() {
+  data() {
     return {
       num: 0,
       sun: false,
@@ -48,9 +53,8 @@ export default {
       search: '',
       title: 'MayMaiShop',
       dark: false,
-      floating:false,
+      floating: false,
     }
-
   },
   head() {
     return {
@@ -138,14 +142,12 @@ export default {
         return false
       }
     },
-    onSearch() {
-      this.$store.dispatch('product/search', { search: this.search, limit: 8 })
+    async onSearch() {
+      await this.$store.dispatch('product/search', this.search)
       this.$router.push('/search')
     },
   },
-};
+}
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

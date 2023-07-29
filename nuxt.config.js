@@ -23,7 +23,7 @@ export default {
     ],
   },
   publicRuntimeConfig: {
-    api: 'http://127.0.0.1:8080',
+    api: 'http://localhost:8080',
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/node_modules/vuetify/dist/vuetify.min.css', '~assets/css/style.css','./assets/global.css'],

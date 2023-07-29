@@ -86,7 +86,7 @@
                   >
                   </v-text-field>
                 </div>
-                <v-btn x-small @click="Plus"
+                <v-btn x-small @click="Plus(getProductDetail.id)"
                   ><v-icon large color="primary">mdi-plus</v-icon></v-btn
                 >
               </div>
@@ -272,42 +272,54 @@ export default {
       }
     },
 
-    Plus() {
-      this.InputQuantity = this.InputQuantity + 1
+    Plus(id) {
+      const item = this.getProductDetail
+      if (this.InputQuantity < item.quantity) {
+          this.InputQuantity = this.InputQuantity + 1
+      } else {
+        alert('ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້ 2222222')
+      }
     },
     addOrder(id) {
       const item = this.getProductDetail
       const existingOrderIndex = this.ListOrder.findIndex((i) => i.id === id)
-
       if (existingOrderIndex !== -1) {
         const existingOrder = this.ListOrder[existingOrderIndex]
         if (this.InputQuantity === 0) {
           alert('ປ້ອມຈຳນວນກ່ອນ!')
         } else {
-          const updatedQuantity =
-            parseInt(existingOrder.quantity) + parseInt(this.InputQuantity)
-          const updatedOrder = { ...existingOrder, quantity: updatedQuantity }
-          this.$store.commit('cart/updateCartItem', {
-            index: existingOrderIndex,
-            item: updatedOrder,
-          })
-          this.InputQuantity = 0
-          this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ')
+          const addPlus = existingOrder.quantity + this.InputQuantity
+          if (addPlus < item.quantity) {
+            const updatedQuantity =
+              parseInt(existingOrder.quantity) + parseInt(this.InputQuantity)
+            const updatedOrder = { ...existingOrder, quantity: updatedQuantity }
+            this.$store.commit('cart/updateCartItem', {
+              index: existingOrderIndex,
+              item: updatedOrder,
+            })
+            this.InputQuantity = 0
+            this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ')
+          } else {
+            alert('ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້', item.quantity)
+            this.InputQuantity = 0
+          }
         }
-      } else if (item.quantity > 0) {
+      } else if (item.quantity > 0 && this.InputQuantity <= item.quantity) {
         const newOrder = {
           id: item.id,
           profile: item.profile,
           name: item.name,
           price: item.sale_price,
           category: item.category,
-          quantity: 1,
+          quantity: this.InputQuantity,
+          check_quantity: item.quantity,
         }
         this.$store.commit('cart/addToCart', newOrder)
         this.InputQuantity = 0
         this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ')
       } else {
-        alert('ສິນຄ້າໝົດສະຕ໊ອກ')
+        alert(`ສິນຄ້າໝົດສະຕ໊ອກ ສາມາດສັ່ງຊື້ໄດ້ໃນຈຳນວນ (${item.quantity})`)
+        this.InputQuantity = item.quantity
       }
       this.$store.commit('cart/changeNumber', this.ListOrder.length)
 
