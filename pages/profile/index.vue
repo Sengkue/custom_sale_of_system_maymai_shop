@@ -11,10 +11,11 @@
                     v-if="getProfile.c_profile"
                     alt=""
                     :src="getProfile.c_profile"
-                  /><a
+                  />
+                  <!-- <a
                     class="fas fa-camera profile-edit"
                     href="JavaScript:void(0);"
-                  ></a>
+                  ></a> -->
                   <img v-if="!getProfile.c_profile" alt="" src="seng.jpg" /><a
                     class="fas fa-camera profile-edit"
                     href="JavaScript:void(0);"
@@ -35,7 +36,7 @@
                 <hr />
                 <v-list nav dense>
                   <v-list-item-group>
-                    <v-list-item
+                    <!-- <v-list-item
                       v-for="item in items"
                       :key="item.i"
                       :to="item.to"
@@ -47,7 +48,7 @@
                       <v-list-item-content>
                         <v-list-item-title>{{ item.text }}</v-list-item-title>
                       </v-list-item-content>
-                    </v-list-item>
+                    </v-list-item> -->
                     <v-list-item @click="logout">
                       <v-list-item-icon>
                         <v-icon>mdi-logout</v-icon>
@@ -285,6 +286,10 @@ export default {
     },
     logout() {
       this.$cookies.remove('token')
+      this.$cookies.remove('user_id')
+      this.$cookies.remove('user')
+      this.$cookies.remove('phone')
+      this.$cookies.remove('profile')
       this.$router.push('login')
     },
   },

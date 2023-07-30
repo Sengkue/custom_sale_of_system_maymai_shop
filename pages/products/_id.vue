@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-card class="mx-auto ma-5" max-width="1000">
+    <v-card class="mx-auto" max-width="1200">
+      <v-btn dark class="red" left small to="/"
+        ><v-icon left>mdi-chevron-left</v-icon>ກັບ</v-btn
+      >
       <v-row>
         <!-------------------------------------------------------- big image -->
         <v-col cols="12" md="4">
@@ -57,9 +60,9 @@
             </v-card-text>
 
             <v-card-text class="font-weight-bold pt-0">
-              ₭{{ getProductDetail.sale_price }}
+              {{ formatPrice(getProductDetail.sale_price) }} ກີບ
             </v-card-text>
-            <div v-if="getProductDetail.size_id" class="sizes d-flex">
+            <!-- <div v-if="getProductDetail.size_id" class="sizes d-flex">
               sizes:
               <span
                 class="size d-flex"
@@ -67,13 +70,45 @@
                 title="small"
                 >{{ getProductDetail.size_id }}</span
               >
-            </div>
+            </div> -->
             <v-card-text>
-              {{ getProductDetail.color }}
+              <!-- {{ getProductDetail.color }} -->
+              <v-autocomplete
+                v-model="color_size_data.id"
+                auto-select-first
+                chips
+                clearable
+                outlined
+                :items="color_size_data"
+                item-value="id"
+                item-text="id"
+                dense
+                deletable-chips
+                prepend-inner-icon="mdi-ballot-outline"
+                label="ເລືອກສີ ແລະ ຂະໜາດທີ່ຕ້ອງການ"
+                single-line
+                hide-details
+                @change="Selected"
+              >
+                <template #item="{ item }">
+                  <div class="select-item d-flex align-center justify-center">
+                    <span>ສີ- {{ item.color }}</span>
+                    <span> || </span>
+                    <span >ຂະໜາດ- ( {{ item.size }} )</span>
+                    <span> || </span>
+                    <span >ຈຳນວນ- ( {{ item.quantity }} )</span>
+                  </div>
+                </template>
+              </v-autocomplete>
+            </v-card-text>
+            <v-card-text v-if="color_size_data.id?color_size_data.id:false">
+              <div v-if="selected_color_size.color?selected_color_size.color:false" class="d-flex "><h6 class="mr-2">ສີ:</h6> {{ selected_color_size.color }}</div>
+              <div v-if="selected_color_size.size?selected_color_size.size:false" class="d-flex "><h6 class="mr-2">ຂະໜາດ:</h6> {{ selected_color_size.size }}</div>
+              <div v-if="selected_color_size.quantity?selected_color_size.quantity:false " class="d-flex"><h6 class="mr-2">ຈຳນວນທີສາມາດສັ່ງຊື້:</h6> {{ selected_color_size.quantity }}</div>
             </v-card-text>
             <v-card-text>
               <div class="d-flex justify-left align-center">
-                <v-btn x-small @click="Minus"
+                <v-btn :disabled="!color_size_data.id" x-small @click="Minus"
                   ><v-icon large color="error">mdi-minus</v-icon></v-btn
                 >
                 <div class="size ml-1 mr-1">
@@ -83,10 +118,14 @@
                     dense
                     placeholder="0"
                     hide-details="auto"
+                    :disabled="!color_size_data.id"
                   >
                   </v-text-field>
                 </div>
-                <v-btn x-small @click="Plus(getProductDetail.id)"
+                <v-btn
+                  :disabled="!color_size_data.id"
+                  x-small
+                  @click="Plus(getProductDetail.id)"
                   ><v-icon large color="primary">mdi-plus</v-icon></v-btn
                 >
               </div>
@@ -99,7 +138,7 @@
                 @click="addOrder(getProductDetail.id)"
               >
                 <v-icon color="blue">mdi-cart-plus</v-icon>
-                <span class="ms-2 blue--text">Add to cart</span>
+                <span class="ms-2 blue--text">ຕື່ມໃສ່ກະຕ່າ</span>
               </v-btn>
 
               <v-btn text color="secondary" icon>
@@ -211,6 +250,8 @@
 import { mapState } from 'vuex'
 export default {
   data: () => ({
+    color_size_data: [],
+    selected_color_size: {},
     model: null,
     image: null,
     InputQuantity: 1,
@@ -261,8 +302,18 @@ export default {
 
   created() {
     this.cookis = this.$cookies.get('listOrder')
+    this.$axios
+      .get(`/color_size/byProductId/${this.$route.params.id}`)
+      .then((res) => {
+        this.color_size_data = res.data.result
+      })
   },
   methods: {
+    Selected() {
+      this.selected_color_size = this.color_size_data.find(
+        (i) => i.id === this.color_size_data.id
+      )
+    },
     detail(productId) {
       this.$router.push('/products/' + productId)
     },
@@ -275,9 +326,9 @@ export default {
     Plus(id) {
       const item = this.getProductDetail
       if (this.InputQuantity < item.quantity) {
-          this.InputQuantity = this.InputQuantity + 1
+        this.InputQuantity = this.InputQuantity + 1
       } else {
-        alert('ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້ 2222222')
+        alert('ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້')
       }
     },
     addOrder(id) {

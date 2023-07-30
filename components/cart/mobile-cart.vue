@@ -47,7 +47,7 @@
 
       <div class="d-flex justify-space-between align-center mb-10 mr-2">
         <h4>ລວມເງິນທັງໝົດ: {{ formatPrice(calculateTotal()) }} ກີບ</h4>
-        <v-btn color="primary" @click="checkout">Checkout</v-btn>
+        <v-btn color="primary" @click="checkout">ຈ່າຍເງິນ</v-btn>
       </div>
     </div>
   </div>

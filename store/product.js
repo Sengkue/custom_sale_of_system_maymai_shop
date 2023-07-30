@@ -10,7 +10,7 @@ export const state = () => ({
   newProduct: {},
   ProductBanner: [],
   getByCategory: [],
-  hotAndpopular:[]
+  hotAndpopular: [],
 })
 
 export const mutations = {
@@ -41,9 +41,9 @@ export const mutations = {
   setSelectByCategory(state, data) {
     state.getByCategory = data
   },
-  setHotAndPopular(state, data){
+  setHotAndPopular(state, data) {
     state.hotAndpopular = data
-  }
+  },
 }
 
 export const actions = {
@@ -56,7 +56,6 @@ export const actions = {
   async selectProductDetail({ commit }, productId) {
     await this.$axios.get(`/product/${productId}`).then((data) => {
       commit('setProductDetail', data.data.result)
-      // this.$router.push('/productDetail')
     })
   },
 
@@ -67,12 +66,12 @@ export const actions = {
           keyword,
           limit: 8,
         },
-      });
+      })
 
-      commit('setProduct', response.data.result);
+      commit('setProduct', response.data.result)
     } catch (error) {
       // You can commit an empty array or handle the error state differently based on your requirements.
-      commit('setProduct', []);
+      commit('setProduct', [])
     }
   },
 
@@ -87,24 +86,36 @@ export const actions = {
       commit('setProductImage', data.data.data)
     })
   },
-  async selectNewProduct({ commit }) {
-    await this.$axios.get('/product').then((data) => {
-      commit('setNewProduct', data.data.result)
-    })
+  async selectNewProduct({ commit }, limit) {
+    await this.$axios
+      .get('/product/limit', {
+        params: { limit },
+      })
+      .then((data) => {
+        commit('setNewProduct', data.data.result)
+      })
   },
   // ___________________________select by category________________________
   async selectByCategory({ commit }, id) {
+    const limit = 100
     try {
-      const response = await this.$axios.get(`/product/category/${id}`);
-      commit('setSelectByCategory', response.data.result);
+      const response = await this.$axios.get(`/product/category/${id}`,{
+        params: { limit }
+      })
+      commit('setSelectByCategory', response.data.result)
     } catch (error) {
-      commit('setSelectByCategory', []);
+      commit('setSelectByCategory', [])
     }
   },
   // ________________________________select Hot or Popular___________________
-  async selectHotAndPopular({commit}){
-       await this.$axios.get('/saleDetail/hot/product').then((res)=>{
+  async selectHotAndPopular({ commit }, limit) {
+    console.log('show number', limit)
+    await this.$axios
+      .get(`/saleDetail/hot/product`, {
+        params: { limit },
+      })
+      .then((res) => {
         commit('setHotAndPopular', res.data.result)
-       })
-  }
+      })
+  },
 }

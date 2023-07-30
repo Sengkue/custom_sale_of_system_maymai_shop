@@ -1,16 +1,16 @@
 <template>
-    <v-card>
-      <v-row>
-        <v-col cols="12" class="pt-5">
-          <div v-if="loading" class="text-center mt-5">
-            <v-progress-circular
-              indeterminate
-              color="primary"
-            ></v-progress-circular>
-          </div>
-        </v-col>
+  <v-card>
+    <v-row>
+      <v-col cols="12" class="pt-5">
+        <div v-if="loading" class="text-center mt-5">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
+      </v-col>
 
-        <v-col
+      <v-col
         v-for="product in getProduct"
         :key="product.productId"
         cols="6"
@@ -52,72 +52,75 @@
           </v-card>
         </v-hover>
       </v-col>
-      </v-row>
-      <!-- <div
+    </v-row>
+    <v-row class="d-flex justify-center">
+      <div
+        v-if="showSeeMoreButton"
         v-ripple
         class="my-10 text-center text-2xl sizeText red--text cursor"
         color="blue"
         @click="seemore"
       >
-        SEE MORE
-        {{ searchValue.search }}
-        <v-btn absoluteclass="mx-2" fab small depressed :loading="loading">
+        ເບິ່ງເພີ່ມເຕີມ
+        <v-btn class="mx-1" fab small depressed :loading="loading">
           <v-icon color="red">mdi-chevron-down</v-icon>
         </v-btn>
-      </div> -->
-    </v-card>
-  </template>
+      </div>
+    </v-row>
+  </v-card>
+</template>
 
-  <script>
-  export default {
-    name: 'EcommerceLandingDiscountedProducts',
+<script>
+export default {
+  name: 'EcommerceLandingDiscountedProducts',
 
-    data() {
-      return {
-        loading: true,
-        plus: 10,
-      }
+  data() {
+    return {
+      loading: true,
+      limit: 4,
+    }
+  },
+
+  computed: {
+    getProduct() {
+      return this.$store.state.product.productreal
+    },
+    searchValue() {
+      return this.$store.state.product.searchValue
+    },
+    showSeeMoreButton() {
+      return this.getProduct.length % this.limit === 0
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('product/selectProduct', this.limit)
+    this.loading = false
+  },
+
+  methods: {
+    detail(productId) {
+      this.$router.push('/products/' + productId)
     },
 
-    computed: {
-      getProduct() {
-        return this.$store.state.product.productreal
-      },
-      searchValue() {
-        return this.$store.state.product.searchValue
-      },
-    },
-    async mounted() {
-      await this.$store.dispatch('product/selectProduct', { limit: 12 })
+    async seemore() {
+      this.limit += 4
+      this.loading = true
+      await this.$store.dispatch('product/search', {
+        params: {
+          limit: this.limit,
+        },
+      })
       this.loading = false
     },
+  },
+}
+</script>
 
-    methods: {
-      detail(productId) {
-      this.$router.push('/products/' + productId)
-
-     },
-
-      async seemore() {
-        this.plus = this.plus + 4
-        this.loading = true
-
-        await this.$store.dispatch('product/search', {
-           params: {
-          limit: this.plus,
-        },
-        })
-        this.loading = false
-      },
-    },
-  }
-  </script>
-
-  <style lang="scss" scoped>
-  .sizeText {
-    font-size: 0.8em;
-  }
-  .cursor {
-    cursor: pointer;
-  }
-  </style>
+<style lang="scss" scoped>
+.sizeText {
+  font-size: 0.8em;
+}
+.cursor {
+  cursor: pointer;
+}
+</style>
