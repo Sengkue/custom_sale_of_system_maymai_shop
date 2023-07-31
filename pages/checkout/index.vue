@@ -289,6 +289,7 @@ export default {
   name: 'CustomSaleOfSystemMaymaiShopIndex',
   data() {
     return {
+      
       loading: false,
       openImage: false,
       ImageUplaod: false,
