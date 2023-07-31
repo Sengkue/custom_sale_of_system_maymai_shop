@@ -59,9 +59,10 @@
               {{ getProductDetail.description }}
             </v-card-text>
 
-            <v-card-text class="font-weight-bold pt-0">
+            <!-- <v-card-text class="font-weight-bold pt-0">
               {{ formatPrice(getProductDetail.sale_price) }} ກີບ
-            </v-card-text>
+            </v-card-text> -->
+
             <!-- <div v-if="getProductDetail.size_id" class="sizes d-flex">
               sizes:
               <span
@@ -105,6 +106,7 @@
               <div v-if="selected_color_size.color?selected_color_size.color:false" class="d-flex "><h6 class="mr-2">ສີ:</h6> {{ selected_color_size.color }}</div>
               <div v-if="selected_color_size.size?selected_color_size.size:false" class="d-flex "><h6 class="mr-2">ຂະໜາດ:</h6> {{ selected_color_size.size }}</div>
               <div v-if="selected_color_size.quantity?selected_color_size.quantity:false " class="d-flex"><h6 class="mr-2">ຈຳນວນທີສາມາດສັ່ງຊື້:</h6> {{ selected_color_size.quantity }}</div>
+              <div v-if="selected_color_size.sale_price?selected_color_size.sale_price:false " class="d-flex"><h6 class="mr-2">ລາຄາຂາຍ:</h6> {{ formatPrice(selected_color_size.sale_price) }} ກີບ</div>
             </v-card-text>
             <v-card-text>
               <div class="d-flex justify-left align-center">
@@ -125,7 +127,7 @@
                 <v-btn
                   :disabled="!color_size_data.id"
                   x-small
-                  @click="Plus(getProductDetail.id)"
+                  @click="Plus"
                   ><v-icon large color="primary">mdi-plus</v-icon></v-btn
                 >
               </div>
@@ -323,53 +325,62 @@ export default {
       }
     },
 
-    Plus(id) {
-      const item = this.getProductDetail
+    Plus() {
+      const item = this.selected_color_size
       if (this.InputQuantity < item.quantity) {
-        this.InputQuantity = this.InputQuantity + 1
+        this.InputQuantity += 1
       } else {
-        alert('ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້')
+        this.$toast.error('<h4 class="py-2 px-2">ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້</h4>',{
+          duraction:5000
+        })
       }
     },
     addOrder(id) {
-      const item = this.getProductDetail
-      const existingOrderIndex = this.ListOrder.findIndex((i) => i.id === id)
+      // const item = this.getProductDetail
+      const item = this.selected_color_size
+      console.log('showooooooooooo', this.color_size_data.id)
+      console.log('showooooooooooo222222222', this.ListOrder)
+      const existingOrderIndex = this.ListOrder.findIndex((i) => i.id === this.color_size_data.id)
       if (existingOrderIndex !== -1) {
         const existingOrder = this.ListOrder[existingOrderIndex]
         if (this.InputQuantity === 0) {
-          alert('ປ້ອມຈຳນວນກ່ອນ!')
+          this.$toast.error('<h4>ປ້ອມຈຳນວນກ່ອນ!</h4>')
         } else {
-          const addPlus = existingOrder.quantity + this.InputQuantity
-          if (addPlus < item.quantity) {
-            const updatedQuantity =
-              parseInt(existingOrder.quantity) + parseInt(this.InputQuantity)
+          const addPlus = existingOrder.quantity + parseInt(this.InputQuantity)
+          if (addPlus <= item.quantity) {
+            const updatedQuantity = parseInt(existingOrder.quantity) + parseInt(this.InputQuantity)
             const updatedOrder = { ...existingOrder, quantity: updatedQuantity }
             this.$store.commit('cart/updateCartItem', {
               index: existingOrderIndex,
               item: updatedOrder,
             })
             this.InputQuantity = 0
-            this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ')
+            this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ11111')
           } else {
-            alert('ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້', item.quantity)
+            this.$toast.error('<h5>ສີນຄ້າໝົດສະຕ໊ອກ ທ່ານໄດ້ສັ່ງຊື້ເຕັມຈຳນວນທີ່ມີແລ້ວ</h5>')
             this.InputQuantity = 0
           }
         }
       } else if (item.quantity > 0 && this.InputQuantity <= item.quantity) {
         const newOrder = {
           id: item.id,
-          profile: item.profile,
-          name: item.name,
+          product_id:item.product_id,
+          profile: this.getProductDetail.profile,
+          name: this.getProductDetail.name,
           price: item.sale_price,
-          category: item.category,
+          category: this.getProductDetail.category,
+          color: item.color,
+          size: item.size,
           quantity: this.InputQuantity,
           check_quantity: item.quantity,
         }
         this.$store.commit('cart/addToCart', newOrder)
         this.InputQuantity = 0
-        this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ')
+        this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ2222')
       } else {
-        alert(`ສິນຄ້າໝົດສະຕ໊ອກ ສາມາດສັ່ງຊື້ໄດ້ໃນຈຳນວນ (${item.quantity})`)
+        this.$toast.error(`ສິນຄ້າໝົດສະຕ໊ອກ ສາມາດສັ່ງຊື້ໄດ້ໃນຈຳນວນ44444 (${item.quantity})`,{
+          duraction:5000
+        })
         this.InputQuantity = item.quantity
       }
       this.$store.commit('cart/changeNumber', this.ListOrder.length)

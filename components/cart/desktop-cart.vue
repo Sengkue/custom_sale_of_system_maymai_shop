@@ -2,6 +2,7 @@
   <div>
     <div class="container">
       <!-- row opened -->
+      {{ cartItems }}
       <div class="row">
         <div class="col-xl-12 col-md-12">
           <div class="card">
@@ -13,8 +14,8 @@
                 >
                   <thead>
                     <tr>
-                      <th class="text-start"><h4>ສິນຄ່າ</h4> </th>
-                      <th class="w-150"> <h4>ຈຳນວນ</h4></th>
+                      <th class="text-start"><h4>ສິນຄ່າ</h4></th>
+                      <th class="w-150"><h4>ຈຳນວນ</h4></th>
                       <th><h4>ລວມທັງໝົດ</h4></th>
                       <!-- <th>DISCOUNT</th> -->
                       <th>
@@ -43,6 +44,14 @@
                               <dl class="card-item-desc-1">
                                 <dt>ປະເພດ:</dt>
                                 <dd>{{ item.category }}</dd>
+                              </dl>
+                              <dl class="card-item-desc-1">
+                                <dt>ສີ:</dt>
+                                <dd>{{ item.color }}</dd>
+                              </dl>
+                              <dl class="card-item-desc-1">
+                                <dt>ຂະໜາດ:</dt>
+                                <dd>{{ item.size }}</dd>
                               </dl>
                               <dl class="card-item-desc-1">
                                 <dt>ລາຄາຂາຍ:</dt>
@@ -105,7 +114,9 @@
                 </div> -->
                 <div class="column text-lg">
                   ລວມເງິນທັງໝົດ:
-                  <span class="tx-20 fw-bold ms-2">{{ formatPrice(calculateTotal()) }} ກີບ</span>
+                  <span class="tx-20 fw-bold ms-2"
+                    >{{ formatPrice(calculateTotal()) }} ກີບ</span
+                  >
                 </div>
               </div>
               <div class="shopping-cart-footer">
