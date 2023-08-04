@@ -137,10 +137,11 @@
               <v-btn
                 text
                 color="primary"
+                :disabled="!color_size_data.id"
                 @click="addOrder(getProductDetail.id)"
               >
                 <v-icon color="blue">mdi-cart-plus</v-icon>
-                <span class="ms-2 blue--text">ຕື່ມໃສ່ກະຕ່າ</span>
+                <span color="primary" class="ms-2">ຕື່ມໃສ່ກະຕ່າ</span>
               </v-btn>
 
               <v-btn text color="secondary" icon>
@@ -338,8 +339,8 @@ export default {
     addOrder(id) {
       // const item = this.getProductDetail
       const item = this.selected_color_size
-      console.log('showooooooooooo', this.color_size_data.id)
-      console.log('showooooooooooo222222222', this.ListOrder)
+      // console.log('showooooooooooo', this.color_size_data.id)
+      // console.log('showooooooooooo222222222', this.ListOrder)
       const existingOrderIndex = this.ListOrder.findIndex((i) => i.id === this.color_size_data.id)
       if (existingOrderIndex !== -1) {
         const existingOrder = this.ListOrder[existingOrderIndex]
@@ -355,7 +356,7 @@ export default {
               item: updatedOrder,
             })
             this.InputQuantity = 0
-            this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ11111')
+            this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ')
           } else {
             this.$toast.error('<h5>ສີນຄ້າໝົດສະຕ໊ອກ ທ່ານໄດ້ສັ່ງຊື້ເຕັມຈຳນວນທີ່ມີແລ້ວ</h5>')
             this.InputQuantity = 0
@@ -376,9 +377,9 @@ export default {
         }
         this.$store.commit('cart/addToCart', newOrder)
         this.InputQuantity = 0
-        this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ2222')
+        this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ')
       } else {
-        this.$toast.error(`ສິນຄ້າໝົດສະຕ໊ອກ ສາມາດສັ່ງຊື້ໄດ້ໃນຈຳນວນ44444 (${item.quantity})`,{
+        this.$toast.error(`ສິນຄ້າໝົດສະຕ໊ອກ ສາມາດສັ່ງຊື້ໄດ້ໃນຈຳນວນ (${item.quantity})`,{
           duraction:5000
         })
         this.InputQuantity = item.quantity

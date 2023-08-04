@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <!-- row opened -->
-      {{ cartItems }}
+      <!-- {{ cartItems }} -->
       <div class="row">
         <div class="col-xl-12 col-md-12">
           <div class="card">

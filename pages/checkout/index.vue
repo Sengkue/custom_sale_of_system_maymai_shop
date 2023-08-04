@@ -157,7 +157,7 @@
                     <div class="d-flex justify-center">
                       <v-img
                         v-ripple
-                        src="QR.jpg"
+                        src="QR.jpeg"
                         max-width="50%"
                         contain
                         @click="openImage = true"
@@ -175,7 +175,7 @@
                           <div class="d-flex justify-center">
                             <v-img
                               v-ripple
-                              src="QR.jpg"
+                              src="QR.jpeg"
                               max-width="50%"
                               height="auto"
                               contain

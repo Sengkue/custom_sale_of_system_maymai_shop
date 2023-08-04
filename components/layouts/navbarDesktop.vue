@@ -2,6 +2,12 @@
   <!---------------- desktop nav bar---------------------------------------------------desktop nav bar----------------->
   <v-app-bar v-if="!$vuetify.breakpoint.xs" fixed app>
     <v-container class="d-flex align-center">
+      <div v-ripple class="text-center px-3 cursor-pointer"  @click="goHome('/')">
+        <div>
+          <v-icon large>mdi-home</v-icon>
+        </div>
+        <!-- <div>ໜ້າຫຼັກ</div> -->
+      </div>
       <v-avatar v-ripple @click="goHome('/')">
         <v-img src="/image/icon.png" width="20" contain></v-img>
       </v-avatar>
