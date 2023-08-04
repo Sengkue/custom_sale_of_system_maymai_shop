@@ -47,6 +47,7 @@
             ></v-img>
             <v-card-text class="pb-0">
               <div>{{ product.name.length<10?product.name:product.name?.slice(0, 30) + '...' }}</div>
+              <div>{{ currency(product.sale_price) }}</div>
               <div>{{ product.description.length <10?product.description:product.description?.slice(0, 15) + '...' }}</div>
             </v-card-text>
             <v-card-actions>

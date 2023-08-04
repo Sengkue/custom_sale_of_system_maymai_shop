@@ -54,7 +54,8 @@
         <v-col cols="12" md="8">
           <v-card flat>
             <v-card-title>{{ getProductDetail.name }}</v-card-title>
-
+            <!-- <v-card-title>{{ getProductDetail.name }}</v-card-title> -->
+            <v-card-title>{{ getProductDetail.sale_price }}</v-card-title>
             <v-card-text class="pt-0">
               {{ getProductDetail.description }}
             </v-card-text>
