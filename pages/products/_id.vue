@@ -50,7 +50,7 @@
             </v-slide-item>
           </v-slide-group>
         </v-col>
-        <!-------------------------------------------------------- detail descripte -->
+        <!------------------------------------------- detail descripte -->
         <v-col cols="12" md="8">
           <v-card flat>
             <v-card-title>{{ getProductDetail.name }}</v-card-title>
