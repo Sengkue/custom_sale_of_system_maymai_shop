@@ -47,9 +47,9 @@
             <v-card-text class="pb-0">
               <!-- <div>{{ product.productDame?.slice(0, 30) + '...' }}</div>
               <div>{{ currency(product.productSale_price) }}</div> -->
-              <div>{{ product.productDame.length<10?product.productDame:product.productDame?.slice(0, 30) + '...' }}</div>
+              <div v-if="product.productDame.length<0">{{ product.productDame.length<10?product.productDame:product.productDame?.slice(0, 30) + '...' }}</div>
               <div>{{ currency(product.productSale_price) }}</div>
-              <div>{{ product.productDescription.length <10?product.productDescription:product.productDescription?.slice(0, 15) + '...' }}</div>
+              <div v-if="product.productDescription.length <0">{{ product.productDescription.length <10?product.productDescription:product.productDescription?.slice(0, 15) + '...' }}</div>
             </v-card-text>
             <v-card-actions>
               <v-btn

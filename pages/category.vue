@@ -12,8 +12,8 @@
             <v-card elevation="0">
               <v-row>
                 <v-col
-                  v-for="(product, index) in getByCategory"
-                  :key="index"
+                  v-for="(product, i) in getByCategory"
+                  :key="i"
                   cols="6"
                   lg="3"
                   sm="6"
@@ -123,7 +123,7 @@
           // Update the items array with the fetched data
           this.items = formattedData
         } catch (error) {
-          console.error('Error fetching data:', error)
+          this.$log.error('Error fetching data:', error)
         }
       },
   
@@ -136,7 +136,7 @@
           // Update the products in the store (assuming your store handles product state)
           this.$store.commit('product/setByCategory', data.result.rows)
         } catch (error) {
-          console.error('Error fetching products by category:', error)
+          this.$log.error('Error fetching products by category:', error)
         }
       },
   

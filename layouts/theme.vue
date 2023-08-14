@@ -1885,7 +1885,7 @@
 		<!-- End Page -->
 
 		<!-- Back-to-top -->
-		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+		<a id="back-to-top" href="#top" ><i class="las la-angle-double-up"></i></a>
 
       </body>
      
@@ -1927,11 +1927,11 @@
           { src: '/assets/plugins/rating/jquery.barrating.js', body: true },
           { src: '/assets/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js', body: true },
           { src: '/assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js', body: true },
-          { src: '/assets/js/sticky.js', body: true },
+        //   { src: '/assets/js/sticky.js', body: true },
           { src: '/assets/plugins/jquery-nice-select/js/jquery.nice-select.js', body: true },
           { src: '/assets/plugins/jquery-nice-select/js/nice-select.js', body: true },
           { src: '/assets/plugins/sidebar/sidebar.js', body: true },
-          { src: '/assets/plugins/sidebar/sidebar-custom.js', body: true },
+        //   { src: '/assets/plugins/sidebar/sidebar-custom.js', body: true },
           { src: '/assets/js/custom.js', body: true },
         ]
       }

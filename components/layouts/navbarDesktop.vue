@@ -109,10 +109,6 @@ export default {
       cartItems: [],
     }
   },
-
-  computed: {},
-  watch: {},
-
   created() {
     this.dark = this.$cookies.get('mode')
     this.$vuetify.theme.dark = this.dark

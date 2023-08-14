@@ -17,7 +17,7 @@
         @keyup.enter="onSearch"
       >
         <template #append>
-          <v-btn text small @click="onSearch" style="background-color: transparent;">
+          <v-btn text small style="background-color: transparent;" @click="onSearch" >
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
         </template>
@@ -92,7 +92,7 @@ export default {
           body: true,
         },
         { src: '/assets/plugins/sidebar/sidebar.js', body: true },
-        { src: '/assets/plugins/sidebar/sidebar-custom.js', body: true },
+        // { src: '/assets/plugins/sidebar/sidebar-custom.js', body: true },
         { src: '/assets/js/custom.js', body: true },
       ],
     }
@@ -110,9 +110,9 @@ export default {
     this.$vuetify.theme.dark = this.dark
     this.sun = this.dark
   },
-  mounted() {
-    this.$store.dispatch('product/search')
-  },
+  // mounted() {
+  //   this.$store.dispatch('product/search')
+  // },
 
   methods: {
     goTo(to) {

@@ -60,19 +60,24 @@ export const actions = {
   },
 
   async search({ commit }, keyword) {
-    try {
-      const response = await this.$axios.get('/product/search', {
-        params: {
-          keyword,
-          limit: 8,
-        },
-      })
-
-      commit('setProduct', response.data.result)
-    } catch (error) {
-      // You can commit an empty array or handle the error state differently based on your requirements.
-      commit('setProduct', [])
+    if(keyword=== null || keyword === ''){
+      return 0
+    }else{
+      try {
+        const response = await this.$axios.get('/product/search', {
+          params: {
+            keyword,
+            limit: 8,
+          },
+        })
+  
+        commit('setProduct', response.data.result)
+      } catch (error) {
+        // You can commit an empty array or handle the error state differently based on your requirements.
+        commit('setProduct', [])
+      }
     }
+
   },
 
   async selectHotProduct({ commit }, params) {
@@ -97,19 +102,23 @@ export const actions = {
   },
   // ___________________________select by category________________________
   async selectByCategory({ commit }, id) {
-    const limit = 100
-    try {
-      const response = await this.$axios.get(`/product/category/${id}`,{
-        params: { limit }
-      })
-      commit('setSelectByCategory', response.data.result)
-    } catch (error) {
-      commit('setSelectByCategory', [])
+    // creae if to check if id equal 0 then return 0 
+    if (id === 0 || id === null  ){
+      return 0
+    }else{
+      const limit = 100
+      try {
+        const response = await this.$axios.get(`/product/category/${id}`,{
+          params: { limit }
+        })
+        commit('setSelectByCategory', response.data.result)
+      } catch (error) {
+        commit('setSelectByCategory', [])
+      }
     }
   },
   // ________________________________select Hot or Popular___________________
   async selectHotAndPopular({ commit }, limit) {
-    console.log('show number', limit)
     await this.$axios
       .get(`/saleDetail/hot/product`, {
         params: { limit },

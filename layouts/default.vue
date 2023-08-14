@@ -65,7 +65,7 @@ export default {
           src: '/assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js',
           body: true,
         },
-        { src: '/assets/js/sticky.js', body: true },
+        // { src: '/assets/js/sticky.js', body: true },
         {
           src: '/assets/plugins/jquery-nice-select/js/jquery.nice-select.js',
           body: true,
@@ -75,8 +75,8 @@ export default {
           body: true,
         },
         { src: '/assets/plugins/sidebar/sidebar.js', body: true },
-        { src: '/assets/plugins/sidebar/sidebar-custom.js', body: true },
-        { src: '/assets/js/custom.js', body: true },
+        // { src: '/assets/plugins/sidebar/sidebar-custom.js', body: true },
+        // { src: '/assets/js/custom.js', body: true },
       ],
     }
   },
@@ -89,13 +89,13 @@ export default {
   watch: {},
 
   created() {
-    this.dark = this.$cookies.get('mode')
+    this.dark = this.$cookies.get('mode') || false;
     this.$vuetify.theme.dark = this.dark
     this.sun = this.dark
   },
-  mounted() {
-    this.$store.dispatch('product/search')
-  },
+  // mounted() {
+  //   this.$store.dispatch('product/search')
+  // },
 
   methods: {
     goTo(to) {
