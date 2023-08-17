@@ -7,10 +7,6 @@
             <v-icon small>mdi-lightning-bolt</v-icon>
           </v-btn>
           <div class="sizeText">{{ message }}</div>
-          <v-spacer />
-          <v-btn small class="error" to="/"
-            ><v-icon>mdi-chevron-left</v-icon>ກັບ</v-btn
-          >
         </v-card>
         <div v-if="loading" class="text-center mt-5">
           <v-progress-circular
@@ -38,11 +34,8 @@
               contain
             ></v-img>
             <v-card-text class="pb-0">
-              <!-- <div>{{ product.name?.slice(0, 30) + '...' }}</div>
-              <div>{{ currency(product.sale_price) }}</div> -->
-              <div>{{ product.name.length<10?product.name:product.name?.slice(0, 30) + '...' }}</div>
+              <div>{{ product.name?.slice(0, 30) + '...' }}</div>
               <div>{{ currency(product.sale_price) }}</div>
-              <div>{{ product.description.length <10?product.description:product.description?.slice(0, 15) + '...' }}</div>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -65,20 +58,17 @@
         </v-hover>
       </v-col>
     </v-row>
-    <v-row class="d-flex justify-center">
-      <div
-        v-if="showSeeMoreButton"
-        v-ripple
-        class="my-10 text-center text-2xl sizeText red--text cursor"
-        color="blue"
-        @click="seemore"
-      >
-        ເບິ່ງເພີ່ມເຕີມ
-        <v-btn class="mx-1" fab small depressed :loading="loading">
-          <v-icon color="red">mdi-chevron-down</v-icon>
-        </v-btn>
-      </div>
-    </v-row>
+    <div
+      v-ripple
+      class="my-10 text-center text-2xl sizeText red--text cursor"
+      color="blue"
+      @click="seemore"
+    >
+      SEE MORE
+      <v-btn absoluteclass="mx-2" fab small depressed :loading="loading">
+        <v-icon color="red">mdi-chevron-down</v-icon>
+      </v-btn>
+    </div>
   </v-card>
 </template>
 
@@ -89,43 +79,45 @@ export default {
   data() {
     return {
       loading: true,
+      plus: 20,
       message: '',
-      limit: 8,
     }
   },
 
   computed: {
     getProduct() {
+      if (this.$route.query.page === 'super-details') {
+        return this.$store.state.product.productreal
+      }
       if (this.$route.query.page === 'hot-details') {
-        return this.$store.state.product.hotAndpopular.map((item)=>{
-          return{
-            id: item.product_id,
-            name: item.productDame,
-            sale_price: item.productSale_price,
-            quantity: item.productQuantity,
-            description: item.productDescription,
-            ...item
-          }
-        })
+        return this.$store.state.product.hotAndpopular
       }
       if (this.$route.query.page === 'new-details') {
         return this.$store.state.product.newProduct
       }
       return []
     },
-    showSeeMoreButton() {
-      return this.getProduct.length % this.limit === 0
+    searchValue() {
+      return this.$store.state.product.searchValue
     },
   },
   async mounted() {
+    if (this.$route.query.page === 'super-details') {
+      this.message = 'Super Deals'
+      await this.$store.dispatch('product/selectProduct', {
+        limit: 12,
+        discount: true,
+      })
+      this.loading = false
+    }
     if (this.$route.query.page === 'hot-details') {
       this.message = 'ສິນຄ້າຍອດນິຍົມ'
-      await this.$store.dispatch('product/selectHotAndPopular', this.limit)
+      await this.$store.dispatch('product/selectHotAndPopular')
       this.loading = false
     }
     if (this.$route.query.page === 'new-details') {
-      this.message = 'ສິນຄ້າໃໝ່'
-      await this.$store.dispatch('product/selectNewProduct', this.limit)
+      this.message = 'ສິນຄ້າຍອດນີຍົມ'
+      await this.$store.dispatch('product/selectNewProduct', { limit: 12 })
       this.loading = false
     }
   },
@@ -135,16 +127,32 @@ export default {
       this.$router.push('/products/' + productId)
       // this.$store.dispatch('/product/productDetail', productId)
     },
+
     async seemore() {
-      this.limit += 4
+      if (this.$route.query.page === 'super-details') {
+        this.loading = true
+        await this.$store.dispatch('product/selectProduct', {
+          limit: this.plus,
+          discount: true,
+        })
+        this.plus = this.plus + 8
+        this.loading = false
+      }
       if (this.$route.query.page === 'hot-details') {
         this.loading = true
-        this.$store.dispatch('product/selectHotAndPopular', this.limit)
+        await this.$store.dispatch('product/selectHotProduct', {
+          limit: this.plus,
+          newProduct: true,
+        })
+        this.plus = this.plus + 8
         this.loading = false
       }
       if (this.$route.query.page === 'new-details') {
         this.loading = true
-        await this.$store.dispatch('product/selectNewProduct', this.limit)
+        await this.$store.dispatch('product/selectNewProduct', {
+          limit: this.plus,
+        })
+        this.plus = this.plus + 8
         this.loading = false
       }
     },

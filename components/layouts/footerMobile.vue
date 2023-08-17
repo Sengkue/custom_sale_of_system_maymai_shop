@@ -22,7 +22,7 @@
           <v-icon color="white" to="/category" large>mdi-shape-outline</v-icon>
         </div>
       </div>
-      <v-badge v-if="cartItems.length" color="red" :content="cartItems.length" overlap>
+      <v-badge v-if="cartItems" color="red" :content="cartItems.length" overlap>
         <div
           v-ripple
           class="text-center px-0 cursor-pointer"
