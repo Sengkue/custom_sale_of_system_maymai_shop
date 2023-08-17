@@ -18,7 +18,7 @@
   
   <script>
   export default {
-    name: 'Empty-Layouts',
+    name: 'EmptyLayouts',
     data() {
       return {
         num: 0,
@@ -44,9 +44,9 @@
       this.$vuetify.theme.dark = this.dark
       this.sun = this.dark
     },
-    mounted() {
-      this.$store.dispatch('product/search')
-    },
+    // mounted() {
+    //   this.$store.dispatch('product/search')
+    // },
   
     methods: {
       goTo(to) {

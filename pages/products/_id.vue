@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-card class="mx-auto ma-5" max-width="1000">
+    <v-card class="mx-auto" max-width="1200">
+      <v-btn dark class="red" left small to="/"
+        ><v-icon left>mdi-chevron-left</v-icon>ກັບ</v-btn
+      >
       <v-row>
         <!-------------------------------------------------------- big image -->
         <v-col cols="12" md="4">
@@ -47,19 +50,21 @@
             </v-slide-item>
           </v-slide-group>
         </v-col>
-        <!-------------------------------------------------------- detail descripte -->
+        <!------------------------------------------- detail descripte -->
         <v-col cols="12" md="8">
           <v-card flat>
             <v-card-title>{{ getProductDetail.name }}</v-card-title>
-
+            <!-- <v-card-title>{{ getProductDetail.name }}</v-card-title> -->
+            <v-card-title>{{ getProductDetail.sale_price }}</v-card-title>
             <v-card-text class="pt-0">
               {{ getProductDetail.description }}
             </v-card-text>
 
-            <v-card-text class="font-weight-bold pt-0">
-              ₭{{ getProductDetail.sale_price }}
-            </v-card-text>
-            <div v-if="getProductDetail.size_id" class="sizes d-flex">
+            <!-- <v-card-text class="font-weight-bold pt-0">
+              {{ formatPrice(getProductDetail.sale_price) }} ກີບ
+            </v-card-text> -->
+
+            <!-- <div v-if="getProductDetail.size_id" class="sizes d-flex">
               sizes:
               <span
                 class="size d-flex"
@@ -67,13 +72,46 @@
                 title="small"
                 >{{ getProductDetail.size_id }}</span
               >
-            </div>
+            </div> -->
             <v-card-text>
-              {{ getProductDetail.color }}
+              <!-- {{ getProductDetail.color }} -->
+              <v-autocomplete
+                v-model="color_size_data.id"
+                auto-select-first
+                chips
+                clearable
+                outlined
+                :items="color_size_data"
+                item-value="id"
+                item-text="id"
+                dense
+                deletable-chips
+                prepend-inner-icon="mdi-ballot-outline"
+                label="ເລືອກສີ ແລະ ຂະໜາດທີ່ຕ້ອງການ"
+                single-line
+                hide-details
+                @change="Selected"
+              >
+                <template #item="{ item }">
+                  <div class="select-item d-flex align-center justify-center">
+                    <span>ສີ- {{ item.color }}</span>
+                    <span> || </span>
+                    <span >ຂະໜາດ- ( {{ item.size }} )</span>
+                    <span> || </span>
+                    <span >ຈຳນວນ- ( {{ item.quantity }} )</span>
+                  </div>
+                </template>
+              </v-autocomplete>
+            </v-card-text>
+            <v-card-text v-if="color_size_data.id?color_size_data.id:false">
+              <div v-if="selected_color_size.color?selected_color_size.color:false" class="d-flex "><h6 class="mr-2">ສີ:</h6> {{ selected_color_size.color }}</div>
+              <div v-if="selected_color_size.size?selected_color_size.size:false" class="d-flex "><h6 class="mr-2">ຂະໜາດ:</h6> {{ selected_color_size.size }}</div>
+              <div v-if="selected_color_size.quantity?selected_color_size.quantity:false " class="d-flex"><h6 class="mr-2">ຈຳນວນທີສາມາດສັ່ງຊື້:</h6> {{ selected_color_size.quantity }}</div>
+              <div v-if="selected_color_size.sale_price?selected_color_size.sale_price:false " class="d-flex"><h6 class="mr-2">ລາຄາຂາຍ:</h6> {{ formatPrice(selected_color_size.sale_price) }} ກີບ</div>
             </v-card-text>
             <v-card-text>
               <div class="d-flex justify-left align-center">
-                <v-btn x-small @click="Minus"
+                <v-btn :disabled="!color_size_data.id" x-small @click="Minus"
                   ><v-icon large color="error">mdi-minus</v-icon></v-btn
                 >
                 <div class="size ml-1 mr-1">
@@ -83,10 +121,14 @@
                     dense
                     placeholder="0"
                     hide-details="auto"
+                    :disabled="!color_size_data.id"
                   >
                   </v-text-field>
                 </div>
-                <v-btn x-small @click="Plus(getProductDetail.id)"
+                <v-btn
+                  :disabled="!color_size_data.id"
+                  x-small
+                  @click="Plus"
                   ><v-icon large color="primary">mdi-plus</v-icon></v-btn
                 >
               </div>
@@ -96,10 +138,11 @@
               <v-btn
                 text
                 color="primary"
+                :disabled="!color_size_data.id"
                 @click="addOrder(getProductDetail.id)"
               >
                 <v-icon color="blue">mdi-cart-plus</v-icon>
-                <span class="ms-2 blue--text">Add to cart</span>
+                <span color="primary" class="ms-2">ຕື່ມໃສ່ກະຕ່າ</span>
               </v-btn>
 
               <v-btn text color="secondary" icon>
@@ -211,6 +254,8 @@
 import { mapState } from 'vuex'
 export default {
   data: () => ({
+    color_size_data: [],
+    selected_color_size: {},
     model: null,
     image: null,
     InputQuantity: 1,
@@ -261,8 +306,18 @@ export default {
 
   created() {
     this.cookis = this.$cookies.get('listOrder')
+    this.$axios
+      .get(`/color_size/byProductId/${this.$route.params.id}`)
+      .then((res) => {
+        this.color_size_data = res.data.result
+      })
   },
   methods: {
+    Selected() {
+      this.selected_color_size = this.color_size_data.find(
+        (i) => i.id === this.color_size_data.id
+      )
+    },
     detail(productId) {
       this.$router.push('/products/' + productId)
     },
@@ -272,26 +327,30 @@ export default {
       }
     },
 
-    Plus(id) {
-      const item = this.getProductDetail
+    Plus() {
+      const item = this.selected_color_size
       if (this.InputQuantity < item.quantity) {
-          this.InputQuantity = this.InputQuantity + 1
+        this.InputQuantity += 1
       } else {
-        alert('ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້ 2222222')
+        this.$toast.error('<h4 class="py-2 px-2">ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້</h4>',{
+          duraction:5000
+        })
       }
     },
     addOrder(id) {
-      const item = this.getProductDetail
-      const existingOrderIndex = this.ListOrder.findIndex((i) => i.id === id)
+      // const item = this.getProductDetail
+      const item = this.selected_color_size
+      // console.log('showooooooooooo', this.color_size_data.id)
+      // console.log('showooooooooooo222222222', this.ListOrder)
+      const existingOrderIndex = this.ListOrder.findIndex((i) => i.id === this.color_size_data.id)
       if (existingOrderIndex !== -1) {
         const existingOrder = this.ListOrder[existingOrderIndex]
         if (this.InputQuantity === 0) {
-          alert('ປ້ອມຈຳນວນກ່ອນ!')
+          this.$toast.error('<h4>ປ້ອມຈຳນວນກ່ອນ!</h4>')
         } else {
-          const addPlus = existingOrder.quantity + this.InputQuantity
-          if (addPlus < item.quantity) {
-            const updatedQuantity =
-              parseInt(existingOrder.quantity) + parseInt(this.InputQuantity)
+          const addPlus = existingOrder.quantity + parseInt(this.InputQuantity)
+          if (addPlus <= item.quantity) {
+            const updatedQuantity = parseInt(existingOrder.quantity) + parseInt(this.InputQuantity)
             const updatedOrder = { ...existingOrder, quantity: updatedQuantity }
             this.$store.commit('cart/updateCartItem', {
               index: existingOrderIndex,
@@ -300,17 +359,20 @@ export default {
             this.InputQuantity = 0
             this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ')
           } else {
-            alert('ສີນຄ້າໝົດສະຕ໊ອກເຈົ້າ ສາມາດສັ່ງຊື້ໄດ້ເທົ່ານີ້', item.quantity)
+            this.$toast.error('<h5>ສີນຄ້າໝົດສະຕ໊ອກ ທ່ານໄດ້ສັ່ງຊື້ເຕັມຈຳນວນທີ່ມີແລ້ວ</h5>')
             this.InputQuantity = 0
           }
         }
       } else if (item.quantity > 0 && this.InputQuantity <= item.quantity) {
         const newOrder = {
           id: item.id,
-          profile: item.profile,
-          name: item.name,
+          product_id:item.product_id,
+          profile: this.getProductDetail.profile,
+          name: this.getProductDetail.name,
           price: item.sale_price,
-          category: item.category,
+          category: this.getProductDetail.category,
+          color: item.color,
+          size: item.size,
           quantity: this.InputQuantity,
           check_quantity: item.quantity,
         }
@@ -318,7 +380,9 @@ export default {
         this.InputQuantity = 0
         this.$toast.success('ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ')
       } else {
-        alert(`ສິນຄ້າໝົດສະຕ໊ອກ ສາມາດສັ່ງຊື້ໄດ້ໃນຈຳນວນ (${item.quantity})`)
+        this.$toast.error(`ສິນຄ້າໝົດສະຕ໊ອກ ສາມາດສັ່ງຊື້ໄດ້ໃນຈຳນວນ (${item.quantity})`,{
+          duraction:5000
+        })
         this.InputQuantity = item.quantity
       }
       this.$store.commit('cart/changeNumber', this.ListOrder.length)

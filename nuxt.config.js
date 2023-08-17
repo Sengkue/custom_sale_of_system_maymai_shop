@@ -17,7 +17,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100;200;300;400;500&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@200;300;400;500&display=swap',
         rel: 'stylesheet',
       },
     ],

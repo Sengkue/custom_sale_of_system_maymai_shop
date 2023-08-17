@@ -11,10 +11,11 @@
                     v-if="getProfile.c_profile"
                     alt=""
                     :src="getProfile.c_profile"
-                  /><a
+                  />
+                  <!-- <a
                     class="fas fa-camera profile-edit"
                     href="JavaScript:void(0);"
-                  ></a>
+                  ></a> -->
                   <img v-if="!getProfile.c_profile" alt="" src="seng.jpg" /><a
                     class="fas fa-camera profile-edit"
                     href="JavaScript:void(0);"
@@ -35,7 +36,7 @@
                 <hr />
                 <v-list nav dense>
                   <v-list-item-group>
-                    <v-list-item
+                    <!-- <v-list-item
                       v-for="item in items"
                       :key="item.i"
                       :to="item.to"
@@ -47,7 +48,7 @@
                       <v-list-item-content>
                         <v-list-item-title>{{ item.text }}</v-list-item-title>
                       </v-list-item-content>
-                    </v-list-item>
+                    </v-list-item> -->
                     <v-list-item @click="logout">
                       <v-list-item-icon>
                         <v-icon>mdi-logout</v-icon>
@@ -135,7 +136,7 @@
                       ຈັດສົ່ງສຳເລັດ
                     </div>
                   </template>
-                  <template #[`item.actions`]="{item}">
+                  <template #[`item.actions`]="{ item }">
                     <div>
                       <v-btn text small @click="review(item.id)"
                         ><v-icon>mdi-eye</v-icon></v-btn
@@ -148,9 +149,9 @@
           </div>
         </div>
       </div>
-      <v-dialog v-model="dialog" max-width="800">
-                <!-- _______________________________table show details_____________________________ -->
-                <div v-if="getDetail">
+      <v-dialog v-model="dialog" max-width="1000">
+        <!-- _______________________________table show details_____________________________ -->
+        <div v-if="getDetail">
           <v-data-table :headers="newdetailHeader" :items="getDetail">
             <template #[`item.profile`]="{ value }">
               <v-icon v-if="!value" color="primary" large
@@ -158,26 +159,24 @@
               >
               <v-img v-else :src="value" width="50" height="50"></v-img>
             </template>
-            <template #[`items.`]>
-              <div>
-                
-              </div>
+            <template #[`item.sale_price`]="{value}">
+              {{ formatPrice(value) }} ກີບ
             </template>
             <template #top>
               <div class="d-flex align-center justify-space-between">
                 <div>
-                  <h3 class="mb-0">ລາຍລະອຽດການສັ່ງຊື້</h3>
+                  <h3 class="mb-0 pl-2 pt-2">ລາຍລະອຽດການສັ່ງຊື້</h3>
                 </div>
                 <div class="d-flex align-center justify-space-between">
                   <v-tooltip top>
                     <template #activator="{ on }">
                       <v-btn
-                      text
+                        text
                         class="red white--text"
                         v-on="on"
                         @click="dialog = false"
                       >
-                       <v-icon>mdi-close</v-icon>
+                        <v-icon>mdi-close</v-icon>
                       </v-btn>
                     </template>
                     <span>ປິດ</span>
@@ -186,7 +185,7 @@
               </div>
             </template>
             <template #[`item.total`]="{ item }">
-              {{ item.sale_price * item.quantity }}
+              {{ formatPrice(item.sale_price * item.quantity) }} ກີບ
             </template>
           </v-data-table>
         </div>
@@ -223,14 +222,14 @@ export default {
         { text: 'ຊື່ສິນຄ້າ', value: 'productName' },
         { text: 'ປະເພດ', value: 'productName' },
         { text: 'ສີ', value: 'color' },
-        { text: 'ຂະໜາດ', value: 'size_id' },
+        { text: 'ຂະໜາດ', value: 'size' },
         { text: 'ຈໍານວນ', value: 'quantity' },
-        { text: 'ລາຄາ(ກິບ)', value: 'sale_price' },
-        { text: 'ລາຄາລວມ(ກິບ)', value: 'total' },
+        { text: 'ລາຄາ', value: 'sale_price' },
+        { text: 'ລາຄາລວມ', value: 'total' },
       ],
-      loading:false,
-      getDetail:[],
-      dialog:false
+      loading: false,
+      getDetail: [],
+      dialog: false,
     }
   },
   computed: {
@@ -250,8 +249,8 @@ export default {
       this.$axios
         .get(`/saleDetail/sale/${id}`)
         .then((data) => {
-          this.getDetail = data.data.result.map((item, index)=>{
-            return { index: index + 1,...item}
+          this.getDetail = data.data.result.map((item, index) => {
+            return { index: index + 1, ...item }
           })
         })
         .catch((error) => {
@@ -285,6 +284,10 @@ export default {
     },
     logout() {
       this.$cookies.remove('token')
+      this.$cookies.remove('user_id')
+      this.$cookies.remove('user')
+      this.$cookies.remove('phone')
+      this.$cookies.remove('profile')
       this.$router.push('login')
     },
   },

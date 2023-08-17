@@ -10,7 +10,7 @@
             <v-icon
               class="pa-3 white--text"
               style="border: 2px solid white; border-radius: 50%"
-              >mdi-pin</v-icon
+              >mdi-new-box</v-icon
             >
             <!-- <v-avatar><v-img src="/image/redBlack.gif"  max-width="30" max-height="30"></v-img></v-avatar> -->
           </v-btn>
@@ -27,7 +27,6 @@
           </div>
         </v-card>
       </v-col>
-      <!-- <v-col cols="12">{{ getProduct }}</v-col> -->
       <v-col
         v-for="product in getProduct"
         :key="product.productId"
@@ -47,8 +46,10 @@
               contain
             ></v-img>
             <v-card-text class="pb-0">
-              <div>{{ product.name?.slice(0, 30) + '...' }}</div>
+              <div v-if="product.name.length < 0">{{ product.name.length < 10 ?product.name : product.name?.slice(0, 30) + '...' }}</div>
               <div>{{ currency(product.sale_price) }}</div>
+              <div v-if="product.description">{{ product.description?.slice(0, 15) + '...' }}</div>
+
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -71,6 +72,20 @@
         </v-hover>
       </v-col>
     </v-row>
+    <!-- <v-row class="d-flex justify-center">
+      <div
+      v-if="showSeeMoreButton"
+        v-ripple
+        class="my-10 text-center text-2xl sizeText red--text cursor"
+        color="blue"
+        @click="seemore"
+      >
+        ເບິ່ງເພີ່ມເຕີມ
+        <v-btn class="mx-1" fab small depressed :loading="loading">
+          <v-icon color="red">mdi-chevron-down</v-icon>
+        </v-btn>
+      </div>
+    </v-row> -->
   </v-card>
 </template>
 
@@ -79,18 +94,22 @@ export default {
   name: 'EcommerceLandingNewProduct',
 
   data() {
-    return {}
+    return {
+      // limit: 8,
+    }
   },
 
   computed: {
     getProduct() {
       return this.$store.state.product.newProduct
     },
+    // showSeeMoreButton() {
+    //   return this.getProduct.length % this.limit === 0
+    // },
   },
 
   mounted() {
-    // this.$store.dispatch('product/selectNewProduct', { limit:8,})
-    this.$store.dispatch('product/selectNewProduct')
+    this.$store.dispatch('product/selectNewProduct', this.limit)
   },
 
   methods: {
@@ -99,9 +118,14 @@ export default {
     },
     detail(productId) {
       this.$router.push('/products/' + productId)
-      // this.$store.dispatch('/product/productDetail', productId)
     },
   },
+  // async seemore() {
+  //   this.limit += 4
+  //   this.loading = true
+  //   await this.$store.dispatch('product/selectNewProduct', this.limit)
+  //   this.loading = false
+  // },
 }
 </script>
 
