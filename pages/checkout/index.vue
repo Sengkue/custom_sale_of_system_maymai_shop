@@ -157,7 +157,7 @@
                     <div class="d-flex justify-center">
                       <v-img
                         v-ripple
-                        src="QR.jpeg"
+                        src="QR.jpg"
                         max-width="50%"
                         contain
                         @click="openImage = true"
@@ -175,7 +175,7 @@
                           <div class="d-flex justify-center">
                             <v-img
                               v-ripple
-                              src="QR.jpeg"
+                              src="QR.jpg"
                               max-width="50%"
                               height="auto"
                               contain
@@ -289,7 +289,6 @@ export default {
   name: 'CustomSaleOfSystemMaymaiShopIndex',
   data() {
     return {
-      
       loading: false,
       openImage: false,
       ImageUplaod: false,
@@ -323,8 +322,6 @@ export default {
         product_id: null,
         sale_price: null,
         quantity: null,
-        color: null,
-        size: null,
       },
       cartItems: [],
     }
@@ -406,10 +403,7 @@ export default {
         this.sale_detail.sale_id = res.data.result.id
       })
       await this.cartItems.map((item) => {
-        this.sale_detail.color_size_id = item.id
-        this.sale_detail.product_id = item.product_id
-        this.sale_detail.color = item.color
-        this.sale_detail.size = item.size
+        this.sale_detail.product_id = item.id
         this.sale_detail.quantity = parseInt(item.quantity)
         this.sale_detail.sale_price = parseInt(item.price)
         return this.$axios.post('/saleDetail', this.sale_detail).then((res) => {

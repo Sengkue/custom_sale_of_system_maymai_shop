@@ -12,9 +12,10 @@ export const mutations = {
     state.cartItems.push(item); // Add a new item to the cart
   },
   changeNumber(state, length) {
-    state.number = length; 
+    state.number = length; // Update the cart number
   },
   UPDATE_CART_ITEM(state, item) {
+    // Find the item in the cart and update the quantity
     const existingItem = state.cartItems.find((i) => i.id === item.id);
     if (existingItem) {
       existingItem.quantity = item.quantity;

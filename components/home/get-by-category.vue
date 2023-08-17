@@ -1,6 +1,6 @@
 <template>
   <v-card class="mt-0 rounded-0" elevation="0">
-    <v-tabs v-model="tab" background-color="error" dark :class="getByCategory.length<0? '':'mb-n2'">
+    <v-tabs v-model="tab" background-color="error" dark :class="getByCategory.length<0? '':mb-n2">
       <v-tab v-for="(item, index) in items" :key="index">
         {{ item.tab }}
       </v-tab>
@@ -12,8 +12,8 @@
           <v-card elevation="0">
             <v-row>
               <v-col
-                v-for="(product, i) in getByCategory"
-                :key="i"
+                v-for="(product, index) in getByCategory"
+                :key="index"
                 cols="6"
                 lg="3"
                 sm="6"
@@ -70,7 +70,7 @@ export default {
 
   data() {
     return {
-      tab: null,
+      tab: null, // Set the default category ID to null
       items: [],
     }
   },
@@ -85,6 +85,7 @@ export default {
   },
 
   watch: {
+    // Watch for changes in the selected category tab and fetch products accordingly
     tab(newTab, oldTab) {
       if (newTab !== oldTab) {
         this.fetchProductsByCategory(this.items[newTab].id)
@@ -93,32 +94,47 @@ export default {
   },
 
   async mounted() {
+    // Fetch hot and popular products
     this.$store.dispatch('product/selectHotAndPopular')
+
+    // Fetch categories and update the items array
     await this.fetchCategories()
+
+    // Fetch products based on the initial selected category (which is null at this point)
     this.fetchProductsByCategory(this.tab)
   },
 
   methods: {
     async fetchCategories() {
       try {
+        // Fetch data from the API
         const response = await this.$axios.get('/category')
         const data = response.data
+
+        // Process the API response and format it as per the items array structure
         const formattedData = data.result.rows.map((category) => ({
           tab: category.category,
           id: category.id,
           content: category.category + ' Content',
         }))
+
+        // Update the items array with the fetched data
         this.items = formattedData
       } catch (error) {
-        this.$log.error('Error fetching data:', error)
+        console.error('Error fetching data:', error)
       }
     },
 
     async fetchProductsByCategory(categoryId) {
       try {
-        await this.$store.dispatch('product/selectByCategory', categoryId)
+        // Fetch products based on the selected category ID
+        const response = await this.$store.dispatch('product/selectByCategory', categoryId)
+        const data = response.data
+
+        // Update the products in the store (assuming your store handles product state)
+        this.$store.commit('product/setByCategory', data.result.rows)
       } catch (error) {
-        this.$log.error('Error fetching products by category:', error);
+        console.error('Error fetching products by category:', error)
       }
     },
 

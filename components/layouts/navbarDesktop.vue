@@ -2,26 +2,15 @@
   <!---------------- desktop nav bar---------------------------------------------------desktop nav bar----------------->
   <v-app-bar v-if="!$vuetify.breakpoint.xs" fixed app>
     <v-container class="d-flex align-center">
-      <div v-ripple class="text-center px-3 cursor-pointer"  @click="goHome('/')">
-        <div>
-          <v-icon large>mdi-home</v-icon>
-        </div>
-        <!-- <div>ໜ້າຫຼັກ</div> -->
-      </div>
-      <v-avatar v-ripple @click="goHome('/')">
+      <v-avatar v-ripple to="/" @click="goHome('/')">
         <v-img src="/image/icon.png" width="20" contain></v-img>
       </v-avatar>
-      <v-toolbar-title
-        v-ripple
-        class="px-1 cursor-pointer"
-        @click="goHome('/')"
-        >{{ title }}</v-toolbar-title
-      >
+      <v-toolbar-title class="px-1 cursor-pointer">{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-text-field
         v-model="search"
-        placeholder="ຄົ້ນຫາ"
+        placeholder="search"
         outlined
         dense
         hide-details="auto"
@@ -52,10 +41,18 @@
       <div
         v-ripple
         class="text-center px-3 cursor-pointer"
+        @click="goTo('/login')"
+      >
+        <div><v-icon to="/login" color="blue">mdi-account</v-icon></div>
+        <div>Profile</div>
+      </div>
+      <div
+        v-ripple
+        class="text-center px-3 cursor-pointer"
         @click="goDetail('/products/cart')"
       >
         <v-badge
-          v-if="cartItems.length > 0"
+          v-if="cartItems"
           color="red"
           :content="cartItems.length"
           overlap
@@ -63,30 +60,18 @@
           <div>
             <v-icon color="blue">mdi-cart-outline</v-icon>
           </div>
-          <div class="mt-1">ກະຕ່າ</div>
+          <div>cart</div>
         </v-badge>
         <div v-else>
           <div>
             <v-icon color="blue">mdi-cart-outline</v-icon>
           </div>
-          <div>ກະຕ່າ</div>
+          <div>cart</div>
         </div>
       </div>
-      <!-- <div v-ripple class="text-center px-3 cursor-pointer">
+      <div v-ripple class="text-center px-3 cursor-pointer">
         <div><v-icon color="blue">mdi-translate</v-icon></div>
-        <div>ປ່ຽນພາສາ</div>
-      </div> -->
-      <div
-        v-ripple
-        class="text-center px-3 cursor-pointer"
-        @click="goTo('/login')"
-      >
-        <v-avatar v-if="$cookies.get('profile')" size="30" style="border: 2px solid blue;"
-          ><v-img :src="$cookies.get('profile')"></v-img
-        ></v-avatar>
-        <div v-else><v-icon to="/login" color="blue">mdi-account</v-icon></div>
-        <div v-if="$cookies.get('token')">ໂປຣໄຟລ໌</div>
-        <div v-else>login</div>
+        <div>English</div>
       </div>
     </v-container>
   </v-app-bar>
@@ -103,12 +88,16 @@ export default {
       drawer: false,
       fixed: false,
       search: null,
-      title: 'ຮ້ານແມ່ໄໝແຟຊັນ',
+      title: 'MayMaiShop',
       dark: false,
       floating: false,
       cartItems: [],
     }
   },
+
+  computed: {},
+  watch: {},
+
   created() {
     this.dark = this.$cookies.get('mode')
     this.$vuetify.theme.dark = this.dark
@@ -118,7 +107,7 @@ export default {
 
   methods: {
     getCartItem() {
-      this.cartItems = this.$cookies.get('listOrder') || []
+      this.cartItems = this.$cookies.get('listOrder') || [];
     },
     goTo(to) {
       //

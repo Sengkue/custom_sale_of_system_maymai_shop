@@ -60,23 +60,25 @@
                           <v-row class="mt-2">
                             <v-col cols="6"> ລືມລະຫັດຜ່ານບໍ? </v-col>
                             <v-col cols="6" class="d-flex justify-end">
-                              <a
-                                style="text-decoration: none"
-                                :href="
-                                  'https://wa.me/' +
-                                  '+8562078781525' +
-                                  '?text=ສະບາຍດີແອັດ ລູກຄ້າລືມລະຫັດຜ່ານ '
-                                "
-                                target="_blank"
-                              >
-                                ຕິດຕໍ່ຫາ Admin
-                                <v-icon
-                                  class="my-icon"
-                                  size="25"
-                                  color="success"
-                                  >mdi-whatsapp</v-icon
+                                <a
+                                  :class="custom - link"
+                                  style="text-decoration: none;"
+                                  :href="
+                                    'https://wa.me/' +
+                                    '+8562078781525' +
+                                    '?text=ສະບາຍດີແອັດ ລູກຄ້າລືມລະຫັດຜ່ານ '
+                                  "
+                                  target="_blank"
+                                  v-on="on"
                                 >
-                              </a>
+                                  ຕິດຕໍ່ຫາ Admin
+                                  <v-icon
+                                    class="my-icon"
+                                    size="25"
+                                     color="success"
+                                    >mdi-whatsapp</v-icon
+                                  >
+                                </a>
                             </v-col>
                           </v-row>
                         </v-col>
@@ -291,7 +293,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('user/realLogin')
+    // this.$store.dispatch('user/realLogin')
   },
 
   methods: {
@@ -300,24 +302,24 @@ export default {
       this.$store.dispatch('user/login', this.Login)
       this.loading = false
     },
+    addLog() {
+      this.username = '02078781525'
+      this.password = '123456'
+    },
     async signup() {
-      if (this.file === null || this.file === '') {
-        this.$toast.error('ເລືອກຮູບກ່ອນ')
-        return
-      }
       this.loading = true
-      const file = this.file
-      const formData = new FormData()
-      formData.append('file', file)
-      await this.$axios.post('/upload/single', formData).then((res) => {
-        this.register.c_profile = res.data.url
-        this.$store.dispatch('user/register', this.register)
-      })
-      setTimeout(() => {
-        this.loading = false   
-        this.step = 1
-        this.clear()
-      }, 3000);
+      if (this.$refs.form.validate()) {
+        const file = this.file
+        const formData = new FormData()
+        formData.append('file', file)
+        await this.$axios.post('/upload/single', formData).then((res) => {
+          this.register.c_profile = res.data.url
+          this.$store.dispatch('user/register', this.register)
+          this.clear()
+          this.step = 1
+        })
+      }
+      this.loading = false
     },
     onFileChange(e) {
       if (e) {
@@ -328,8 +330,6 @@ export default {
       document.getElementById('file').click()
     },
     clear() {
-      this.file = null
-      this.url = null
       this.register.c_profile = null
       this.register.c_fname = null
       this.register.c_lname = null
